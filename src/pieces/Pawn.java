@@ -13,6 +13,10 @@ public class Pawn extends Piece{
 	//COnstructors
 	public Pawn(String i,String p,int c)
 	{
+		setAttributes(i, p, c);
+	}
+
+	private void setAttributes(String i, String p, int c) {
 		setId(i);
 		setPath(p);
 		setColor(c);
@@ -26,42 +30,55 @@ public class Pawn extends Piece{
 		//It cannot move backward or move forward to attact a piece
 		
 		possiblemoves.clear();
-		if(getcolor()==0)
+		if(isWhite())
 		{
 			if(x==0)
 				return possiblemoves;
-			if(state[x-1][y].getpiece()==null)
-			{
-				possiblemoves.add(state[x-1][y]);
-				if(x==6)
-				{
-					if(state[4][y].getpiece()==null)
-						possiblemoves.add(state[4][y]);
-				}
-			}
-			if((y>0)&&(state[x-1][y-1].getpiece()!=null)&&(state[x-1][y-1].getpiece().getcolor()!=this.getcolor()))
-				possiblemoves.add(state[x-1][y-1]);
-			if((y<7)&&(state[x-1][y+1].getpiece()!=null)&&(state[x-1][y+1].getpiece().getcolor()!=this.getcolor()))
-				possiblemoves.add(state[x-1][y+1]);
+			
+			calculateMovesForWhiteColor(state, x, y);
 		}
 		else
 		{
 			if(x==8)
 				return possiblemoves;
-			if(state[x+1][y].getpiece()==null)
-			{
-				possiblemoves.add(state[x+1][y]);
-				if(x==1)
-				{
-					if(state[3][y].getpiece()==null)
-						possiblemoves.add(state[3][y]);
-				}
-			}
-			if((y>0)&&(state[x+1][y-1].getpiece()!=null)&&(state[x+1][y-1].getpiece().getcolor()!=this.getcolor()))
-				possiblemoves.add(state[x+1][y-1]);
-			if((y<7)&&(state[x+1][y+1].getpiece()!=null)&&(state[x+1][y+1].getpiece().getcolor()!=this.getcolor()))
-				possiblemoves.add(state[x+1][y+1]);
+			calculateMovesForBlackColor(state, x, y);
 		}
 		return possiblemoves;
+	}
+
+	private boolean isWhite() {
+		return getcolor()==0;
+	}
+
+	private void calculateMovesForBlackColor(Cell[][] state, int x, int y) {
+		if(state[x+1][y].getpiece()==null)
+		{
+			possiblemoves.add(state[x+1][y]);
+			if(x==1)
+			{
+				if(state[3][y].getpiece()==null)
+					possiblemoves.add(state[3][y]);
+			}
+		}
+		if((y>0)&&(state[x+1][y-1].getpiece()!=null)&&(state[x+1][y-1].getpiece().getcolor()!=this.getcolor()))
+			possiblemoves.add(state[x+1][y-1]);
+		if((y<7)&&(state[x+1][y+1].getpiece()!=null)&&(state[x+1][y+1].getpiece().getcolor()!=this.getcolor()))
+			possiblemoves.add(state[x+1][y+1]);
+	}
+
+	private void calculateMovesForWhiteColor(Cell[][] state, int x, int y) {
+		if(state[x-1][y].getpiece()==null)
+		{
+			possiblemoves.add(state[x-1][y]);
+			if(x==6)
+			{
+				if(state[4][y].getpiece()==null)
+					possiblemoves.add(state[4][y]);
+			}
+		}
+		if((y>0)&&(state[x-1][y-1].getpiece()!=null)&&(state[x-1][y-1].getpiece().getcolor()!=this.getcolor()))
+			possiblemoves.add(state[x-1][y-1]);
+		if((y<7)&&(state[x-1][y+1].getpiece()!=null)&&(state[x-1][y+1].getpiece().getcolor()!=this.getcolor()))
+			possiblemoves.add(state[x-1][y+1]);
 	}
 }
