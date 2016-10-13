@@ -76,7 +76,6 @@ public class Player implements Serializable{
 	
 	public static ArrayList<Player> fetch_players()         //Function to fetch the list of the players
 	{
-		Player tempplayer;
 		ObjectInputStream input = null;
 		ArrayList<Player> players = new ArrayList<Player>();
 		try
@@ -87,8 +86,7 @@ public class Player implements Serializable{
 			{
 				while(true)
 				{
-					tempplayer = (Player) input.readObject();
-					players.add(tempplayer);
+					players.add(getNextPlayer(input));
 				}
 			}
 			catch(EOFException e)
@@ -116,6 +114,12 @@ public class Player implements Serializable{
 			e1.printStackTrace();
 		}
 		return players;
+	}
+
+	public static Player getNextPlayer(ObjectInputStream input) throws IOException, ClassNotFoundException {
+		Player tempplayer;
+		tempplayer = (Player) input.readObject();
+		return tempplayer;
 	}
 	
 	public static Player createPlayer(String name) {
@@ -152,10 +156,6 @@ public class Player implements Serializable{
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Game Data File Corrupted !! Click Ok to Continue Builing New File");
 		}
-		catch (Exception e)
-		{
-			
-		}
 	}
 	public class playerfile {
 		private String input_file_name;
@@ -181,41 +181,21 @@ public class Player implements Serializable{
 
 		public void file_the_player_data(Player user)
 				throws IOException, FileNotFoundException, ClassNotFoundException {
-			ObjectInputStream input;
 			ObjectOutputStream output;
-			Player temp_player;
 			boolean playerexists;
-			if(!outputfile.exists())
-				outputfile.createNewFile();
 			output = new ObjectOutputStream(new FileOutputStream(outputfile));
-			if(!inputfile.exists())
+			
+			if(output_file_absent())
 			{
-					
-					output.writeObject(user);
+				create_new_output_file();
+			}
+			if(input_file_absent())
+			{
+				output.writeObject(user);
 			}
 			else
 			{
-				input = new ObjectInputStream(new FileInputStream(inputfile));
-				playerexists = false;
-				try
-				{
-					while(true)
-					{
-						temp_player = (Player)input.readObject();
-						if (temp_player.name().equals(user.name()))
-						{
-							output.writeObject(user);
-							playerexists = true;
-						}
-						else
-						{
-							output.writeObject(temp_player);
-						}
-					}
-				}
-				catch(EOFException e){
-					input.close();
-				}
+				playerexists = write_player_in_game_data(user, output);
 				if(!playerexists)
 				{
 					output.writeObject(user);
@@ -229,6 +209,45 @@ public class Player implements Serializable{
 				System.out.println("File Renameing Unsuccessful");
 			}
 		}
+		public boolean write_player_in_game_data(Player user, ObjectOutputStream output)
+				throws IOException, FileNotFoundException, ClassNotFoundException {
+			ObjectInputStream input;
+			Player next_player;
+			boolean playerexists;
+			input = new ObjectInputStream(new FileInputStream(inputfile));
+			playerexists = false;
+			try
+			{
+				while(true)
+				{
+					next_player = getNextPlayer(input);
+					if (user_is_in_game_data(user, next_player))
+					{
+						output.writeObject(user);
+						playerexists = true;
+					}
+					else
+					{
+						output.writeObject(next_player);
+					}
+				}
+			}
+			catch(EOFException e){
+				input.close();
+			}
+			return playerexists;
+		}
+		public boolean user_is_in_game_data(Player user, Player next_player) {
+			return next_player.name().equals(user.name());
+		}
+		public void create_new_output_file() throws IOException {
+			outputfile.createNewFile();
+		}
+		public boolean input_file_absent() {
+			return !inputfile.exists();
+		}
+		public boolean output_file_absent() {
+			return !outputfile.exists();
+		}
 	}
-
 }
