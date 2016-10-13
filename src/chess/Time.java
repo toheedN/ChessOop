@@ -16,40 +16,52 @@ import javax.swing.Timer;
 
 public class Time
 {
-    private JLabel label;
-    Timer countdownTimer;
-    int Timerem;
+    private final JLabel label;
+    private final Timer countdownTimer;
+    private int Timerem;
     public Time(JLabel passedLabel)
     {
        countdownTimer = new Timer(1000, new CountdownTimerListener());
        this.label = passedLabel;
-       Timerem=Main.timeRemaining;
+       setTimerem(Main.timeRemaining);
     }
-    
+
     //A function that starts the timer
     public void start()
     {
-    	countdownTimer.start();
+    	getCountdownTimer().start();
     }
-    
+
     //A function that resets the timer
     public void reset()
     {
-    	Timerem=Main.timeRemaining;
+    	setTimerem(Main.timeRemaining);
     }
-    
+
+    public Timer getCountdownTimer() {
+        return countdownTimer;
+    }
+
+    public int getTimerem() {
+        return Timerem;
+    }
+
+    public void setTimerem(int timerem) {
+        Timerem = timerem;
+    }
+
     //A function that is called after every second. It updates the timer and takes other necessary actions
-    class CountdownTimerListener implements ActionListener
+    private class CountdownTimerListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
         {
        	 int min,sec;
-       	 if (Timerem > 0)
+       	 if (getTimerem() > 0)
        	 {
-           	min=Timerem/60;
-           	sec=Timerem%60;
+           	min= getTimerem() /60;
+           	sec= getTimerem() %60;
             label.setText(String.valueOf(min)+":"+(sec>=10?String.valueOf(sec):"0"+String.valueOf(sec)));
-            Timerem--;
+            setTimerem(getTimerem() - 1);
          }
        	 else
        	 {
