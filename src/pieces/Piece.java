@@ -20,6 +20,10 @@ public abstract class Piece implements Cloneable{
 	protected ArrayList<Cell> possiblemoves = new ArrayList<Cell>();  //Protected (access from child classes)
 	public abstract ArrayList<Cell> move(Cell pos[][],int x,int y);  //Abstract Function. Must be overridden
 	
+
+	public static final int MIN_CORD = 0;
+	public static final int MAX_CORD = 8;
+
 	//Id Setter
 	public void setId(String id)
 	{

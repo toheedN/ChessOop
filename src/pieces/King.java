@@ -42,8 +42,8 @@ public class King extends Piece{
 		possiblemoves.clear();
 		int posx[]={x,x,x+1,x+1,x+1,x-1,x-1,x-1};
 		int posy[]={y-1,y+1,y-1,y,y+1,y-1,y,y+1};
-		for(int i=0;i<8;i++)
-			if((posx[i]>=0&&posx[i]<8&&posy[i]>=0&&posy[i]<8))
+		for(int i=0;i<MAX_CORD;i++)
+			if((posx[i]>=MIN_CORD&&posx[i]<MAX_CORD&&posy[i]>=MIN_CORD&&posy[i]<MAX_CORD))
 				if((state[posx[i]][posy[i]].getpiece()==null||state[posx[i]][posy[i]].getpiece().getcolor()!=this.getcolor()))
 					possiblemoves.add(state[posx[i]][posy[i]]);
 		return possiblemoves;

@@ -13,6 +13,8 @@ import chess.Cell;
  */
 public class Bishop extends Piece{
 	
+
+
 	//Constructor
 	public Bishop(String id,String path,int color)
 	{
@@ -31,7 +33,7 @@ public class Bishop extends Piece{
 	{
 		//Bishop can Move diagonally in all 4 direction (NW,NE,SW,SE)
 		//This function defines that logic
-		possiblemoves.clear();
+		resetPossibleMoves();
 		
 		BishopNWdirectionCheck(state, x,y);
 		
@@ -46,10 +48,14 @@ public class Bishop extends Piece{
 		return possiblemoves;
 	}
 
+	private void resetPossibleMoves() {
+		possiblemoves.clear();
+	}
+
 	private void bishopSEdirectionCheck(Cell[][] state, int x, int y) {
 		int tempx = x+1;
 		int tempy = y+1;
-		while(tempx<8 && tempy<8)
+		while(tempx<MAX_CORD && tempy<MAX_CORD)
 		{
 			if(state[tempx][tempy].getpiece()==null)
 				possiblemoves.add(state[tempx][tempy]);
@@ -69,7 +75,7 @@ public class Bishop extends Piece{
 		int tempx = x-1;
 		int tempy = y-1;
 		
-		while(tempx>=0 && tempy>=0)
+		while(tempx>=MIN_CORD && tempy>=MIN_CORD)
 		{
 			if(state[tempx][tempy].getpiece()==null)
 				possiblemoves.add(state[tempx][tempy]);
@@ -89,7 +95,7 @@ public class Bishop extends Piece{
 		int tempx = x-1;
 		int tempy = y+1;
 		
-		while(tempx>=0&&tempy<8)
+		while(tempx>=MIN_CORD&&tempy<MAX_CORD)
 		{
 			if(state[tempx][tempy].getpiece()==null)
 				possiblemoves.add(state[tempx][tempy]);
@@ -108,7 +114,7 @@ public class Bishop extends Piece{
 	private void BishopNWdirectionCheck(Cell[][] state, int x, int y) {
 		int tempx = x+1;
 		int tempy = y-1;
-		while(tempx<8 && tempy>=0)
+		while(tempx<MAX_CORD && tempy>=MIN_CORD)
 		{
 			if(state[tempx][tempy].getpiece()==null)
 			{
