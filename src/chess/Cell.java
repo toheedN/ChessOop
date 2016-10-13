@@ -12,6 +12,9 @@ import pieces.*;
  */
 public class Cell extends JPanel implements Cloneable{
 	
+	private static final int RVAL = 113;
+	private static final int GVAL = 198;
+	private static final int BVAL = 113;
 	//Member Variables
 	private static final long serialVersionUID = 1L;
 	private boolean ispossibledestination;
@@ -29,14 +32,21 @@ public class Cell extends JPanel implements Cloneable{
 		
 		setLayout(new BorderLayout());
 	
-	 if((x+y)%2==0)
-	  setBackground(new Color(113,198,113));
-	
-	 else
-	  setBackground(Color.white);
+	 setBackGroundColor(x, y);
 	 
 	 if(p!=null)
 		 setPiece(p);
+	}
+
+	private void setBackGroundColor(int x, int y) {
+		if(evenSumofCoordinates(x, y))
+		  setBackground(new Color(RVAL,GVAL,BVAL));
+		 else
+		  setBackground(Color.white);
+	}
+
+	private boolean evenSumofCoordinates(int x, int y) {
+		return (x+y)%2==0;
 	}
 	
 	//A constructor that takes a cell as argument and returns a new cell will the same data but different reference
@@ -45,10 +55,13 @@ public class Cell extends JPanel implements Cloneable{
 		this.x=cell.x;
 		this.y=cell.y;
 		setLayout(new BorderLayout());
-		if((x+y)%2==0)
-			setBackground(new Color(113,198,113));
-		else
-			setBackground(Color.white);
+		
+		setBackGroundColor(x, y);
+		
+		setPiece(cell);
+	}
+
+	private void setPiece(Cell cell) throws CloneNotSupportedException {
 		if(cell.getpiece()!=null)
 		{
 			setPiece(cell.getpiece().getcopy());
@@ -68,11 +81,6 @@ public class Cell extends JPanel implements Cloneable{
 	public void removePiece()      //Function to remove a piece from the cell
 	{
 		if (piece instanceof King)
-		{
-			piece=null;
-			this.remove(content);
-		}
-		else
 		{
 			piece=null;
 			this.remove(content);
@@ -128,10 +136,7 @@ public class Cell extends JPanel implements Cloneable{
 	public void removecheck()   //Function to deselect check
 	{
 		this.setBorder(null);
-		if((x+y)%2==0)
-			setBackground(new Color(113,198,113));
-		else
-			setBackground(Color.white);
+		setBackGroundColor(x, y);
 		this.ischeck=false;
 	}
 	
