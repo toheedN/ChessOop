@@ -80,19 +80,7 @@ public class Player implements Serializable{
 		ArrayList<Player> players = new ArrayList<Player>();
 		try
 		{
-			File infile = new File(System.getProperty("user.dir")+ File.separator + "chessgamedata.dat");
-			input = new ObjectInputStream(new FileInputStream(infile));
-			try
-			{
-				while(true)
-				{
-					players.add(getNextPlayer(input));
-				}
-			}
-			catch(EOFException e)
-			{
-				input.close();
-			}
+			input = add_players_from_game_data(players);
 		}
 		catch (FileNotFoundException e)
 		{
@@ -114,6 +102,25 @@ public class Player implements Serializable{
 			e1.printStackTrace();
 		}
 		return players;
+	}
+
+	public static ObjectInputStream add_players_from_game_data(ArrayList<Player> players)
+			throws IOException, FileNotFoundException, ClassNotFoundException {
+		ObjectInputStream input;
+		File infile = new File(System.getProperty("user.dir")+ File.separator + "chessgamedata.dat");
+		input = new ObjectInputStream(new FileInputStream(infile));
+		try
+		{
+			while(true)
+			{
+				players.add(getNextPlayer(input));
+			}
+		}
+		catch(EOFException e)
+		{
+			input.close();
+		}
+		return input;
 	}
 
 	public static Player getNextPlayer(ObjectInputStream input) throws IOException, ClassNotFoundException {
