@@ -1,11 +1,11 @@
-package chess;
+package src.chess;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import pieces.*;
+import src.pieces.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -44,7 +44,7 @@ public class Main extends JFrame implements MouseListener
 	private int chance=0;
 	private Cell boardState[][];
 	private ArrayList<Cell> destinationlist = new ArrayList<Cell>();
-	private Player White=null,Black=null;
+	private Player White=Player.createPlayer("null"),Black=Player.createPlayer("null");
 	private JPanel board=new JPanel(new GridLayout(8,8));
 	private JPanel wdetails=new JPanel(new GridLayout(3,3));
 	private JPanel bdetails=new JPanel(new GridLayout(3,3));
@@ -149,7 +149,7 @@ public class Main extends JFrame implements MouseListener
 		
 		Cell cell;
 		board.setBorder(BorderFactory.createLoweredBevelBorder());
-		pieces.Piece P;
+		Piece P;
 		content=getContentPane();
 		setSize(Width,Height);
 		setTitle("Chess");
@@ -638,7 +638,7 @@ public class Main extends JFrame implements MouseListener
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 		if(White==null||Black==null)
 			{JOptionPane.showMessageDialog(controlPanel, "Fill in the details");
 			return;}
@@ -772,7 +772,7 @@ public class Main extends JFrame implements MouseListener
 					}
 			
 						if(n.length()!=0)
-						{Player tem=new Player(n);
+						{Player tem=Player.createPlayer(n);
 						tem.Update_Player();
 						if(color==0)
 							White=tem;

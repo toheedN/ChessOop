@@ -1,4 +1,4 @@
-package chess;
+package src.chess;
 
 import java.io.EOFException;
 import java.io.File;
@@ -26,14 +26,15 @@ public class Player implements Serializable{
 	private String name;
 	private Integer gamesplayed;
 	private Integer gameswon;
+	private static playerfile userfile;
 	
 	//Constructor
-	public Player(String name)
+	private Player(String name)
 	{
 		this.name = name.trim();
-		//this.lname = lname.trim();
 		gamesplayed = new Integer(0);
 		gameswon = new Integer(0);
+		userfile = new playerfile();
 	}
 	
 	//Name Getter
@@ -117,62 +118,25 @@ public class Player implements Serializable{
 		return players;
 	}
 	
+	public static Player createPlayer(String name) {
+		return new Player(name);
+	}
+
 	public void Update_Player()            //Function to update the statistics of a player
 	{
-		ObjectInputStream input = null;
-		ObjectOutputStream output = null;
-		Player temp_player;
-		File inputfile=null;
-		File outputfile=null;
+
+		userfile.set_file_paths();
 		try
 		{
-			inputfile = new File(System.getProperty("user.dir")+ File.separator + "chessgamedata.dat");
-			outputfile = new File(System.getProperty("user.dir")+ File.separator + "tempfile.dat");
+			userfile.make_iofile_objects();
 		} catch (SecurityException e)
 		{
 			JOptionPane.showMessageDialog(null, "Read-Write Permission Denied !! Program Cannot Start");
 			System.exit(0);
 		} 
-		boolean playerdonotexist;
 		try
 		{
-			if(outputfile.exists()==false)
-				outputfile.createNewFile();
-			if(inputfile.exists()==false)
-			{
-					output = new ObjectOutputStream(new java.io.FileOutputStream(outputfile,true));
-					output.writeObject(this);
-			}
-			else
-			{
-				input = new ObjectInputStream(new FileInputStream(inputfile));
-				output = new ObjectOutputStream(new FileOutputStream(outputfile));
-				playerdonotexist=true;
-				try
-				{
-				while(true)
-				{
-					temp_player = (Player)input.readObject();
-					if (temp_player.name().equals(name()))
-					{
-						output.writeObject(this);
-						playerdonotexist = false;
-					}
-					else
-						output.writeObject(temp_player);
-				}
-				}
-				catch(EOFException e){
-					input.close();
-				}
-				if(playerdonotexist)
-					output.writeObject(this);
-			}
-			inputfile.delete();
-			output.close();
-			File newf = new File(System.getProperty("user.dir")+ File.separator + "chessgamedata.dat");
-			if(outputfile.renameTo(newf)==false)
-				System.out.println("File Renameing Unsuccessful");
+			userfile.file_the_player_data(this);
 		}
 		catch (FileNotFoundException e)
 		{
@@ -193,4 +157,78 @@ public class Player implements Serializable{
 			
 		}
 	}
+	public class playerfile {
+		private String input_file_name;
+		private String output_file_name;
+		private File inputfile;
+		private File outputfile;
+		public void make_iofile_objects() {
+			inputfile = new File(input_file_name);
+			outputfile = new File(output_file_name);
+		}
+		public playerfile()
+		{
+			input_file_name = "";
+			output_file_name = "";
+			inputfile = new File("");
+			outputfile = new File("");
+		}
+
+		public void set_file_paths() {
+			input_file_name = System.getProperty("user.dir")+ File.separator + "chessgamedata.dat";
+			output_file_name = System.getProperty("user.dir")+ File.separator + "tempfile.dat";
+		}
+
+		public void file_the_player_data(Player user)
+				throws IOException, FileNotFoundException, ClassNotFoundException {
+			ObjectInputStream input;
+			ObjectOutputStream output;
+			Player temp_player;
+			boolean playerexists;
+			if(!outputfile.exists())
+				outputfile.createNewFile();
+			output = new ObjectOutputStream(new FileOutputStream(outputfile));
+			if(!inputfile.exists())
+			{
+					
+					output.writeObject(user);
+			}
+			else
+			{
+				input = new ObjectInputStream(new FileInputStream(inputfile));
+				playerexists = false;
+				try
+				{
+					while(true)
+					{
+						temp_player = (Player)input.readObject();
+						if (temp_player.name().equals(user.name()))
+						{
+							output.writeObject(user);
+							playerexists = true;
+						}
+						else
+						{
+							output.writeObject(temp_player);
+						}
+					}
+				}
+				catch(EOFException e){
+					input.close();
+				}
+				if(!playerexists)
+				{
+					output.writeObject(user);
+				}
+			}
+			inputfile.delete();
+			output.close();
+			File newf = new File(System.getProperty("user.dir")+ File.separator + "chessgamedata.dat");
+			if(!outputfile.renameTo(newf))
+			{
+				System.out.println("File Renameing Unsuccessful");
+			}
+		}
+	}
+
 }
