@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import chess.Cell;
 
 public class King extends Piece{
-	
+
 	private int x,y; //Extra variables for King class to keep a track of king's position
-	
+
 	//King Constructor
 	public King(String i,String p,int c,int x,int y)
 	{
@@ -17,7 +17,7 @@ public class King extends Piece{
 		setPath(p);
 		setColor(c);
 	}
-	
+
 	//general value access functions
 	public void setx(int x)
 	{
@@ -48,31 +48,31 @@ public class King extends Piece{
 					possiblemoves.add(state[posx[i]][posy[i]]);
 		return possiblemoves;
 	}
-	
-	
-	
+
+
+
 	//Function to check if king is under threat
 	//It checks whether there is any piece of opposite color that can attack king for a given board state
 	public boolean isindanger(Cell state[][])
-    {
-		
-		
-    	if(attackedHorizontally(state)
-    			|| attackedVertically(state)
-    			|| attackedDiagonally(state,x,y))
-    	{
-    		return true;
-    	}
+	{
+
+
+		if(attackedHorizontally(state)
+				|| attackedVertically(state)
+				|| attackedDiagonally(state,x,y))
+		{
+			return true;
+		}
 
 		if(attackedbyKnight(state)
 				|| attackedbyPawn(state))
 		{
 			return true;
 		}
-		
+
 		return false;
-		
-    }
+
+	}
 
 	private boolean attackedbyPawn(Cell[][] state) {
 		int pox[]={x+1,x+1,x+1,x,x,x-1,x-1,x-1};
@@ -85,29 +85,56 @@ public class King extends Piece{
 						return true;
 					}
 		}
-		if(getcolor()==0)
+		if(isWhite())
 		{
-			if(x>0&&y>0&&state[x-1][y-1].getpiece()!=null
-					&&state[x-1][y-1].getpiece().getcolor()==1
-					&&(state[x-1][y-1].getpiece() instanceof Pawn))
-				return true;
-			if(x>0&&y<7&&state[x-1][y+1].getpiece()!=null
-					&&state[x-1][y+1].getpiece().getcolor()==1
-					&&(state[x-1][y+1].getpiece() instanceof Pawn))
-				return true;
+			return performValidationOnWhite(state);
 		}
 		else
 		{
-			if(x<7&&y>0&&state[x+1][y-1].getpiece()!=null
-					&&state[x+1][y-1].getpiece().getcolor()==0
-					&&(state[x+1][y-1].getpiece() instanceof Pawn))
-				return true;
-			if(x<7&&y<7&&state[x+1][y+1].getpiece()!=null
-					&&state[x+1][y+1].getpiece().getcolor()==0
-					&&(state[x+1][y+1].getpiece() instanceof Pawn))
-				return true;
+			return performValidationOnBlack(state);
 		}
-    	return false;
+		
+	}
+
+	private boolean performValidationOnBlack(Cell[][] state) {
+		if((validateCoordsAndPiece(state,(x+1),(y-1))
+				&& validatePieceTypeandColor(state,0,(x+1),(y-1))
+				|| (validateCoordsAndPiece(state,(x+1),(y+1))
+						&& validatePieceTypeandColor(state,0,(x+1),(y+1)))))
+					{return true;}
+		return false;
+	}
+
+	private boolean performValidationOnWhite(Cell[][] state) {
+		if((validateCoordsAndPiece(state,(x-1),(y-1))
+				&& validatePieceTypeandColor(state,1,(x-1),(y-1))) 
+				||( validateCoordsAndPiece(state,(x-1),(y+1))
+				&& validatePieceTypeandColor(state,1,(x-1),(y+1))))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isWhite() {
+		return getcolor()==0;
+	}
+
+	private boolean validatePieceTypeandColor(Cell[][] state,int color,int tx,int ty) {
+		return state[tx][ty].getpiece().getcolor()==color
+		&&(state[tx][ty].getpiece() instanceof Pawn);
+	}
+
+	private boolean validateCoordsAndPiece(Cell[][] state,int tx, int ty) {
+		return validateCoords() && validatePiece(state,tx,ty);
+	}
+
+	private boolean validatePiece(Cell[][] state,int tx,int ty) {
+		return state[tx][ty].getpiece()!=null;
+	}
+
+	private boolean validateCoords() {
+		return x>0 && y>0;
 	}
 
 	private boolean attackedbyKnight(Cell[][] state) {
@@ -124,15 +151,15 @@ public class King extends Piece{
 
 	private boolean attackedDiagonally(Cell[][] state, int x, int y) {
 		return (attackedfromSE(state, x, y)||
-		attackedfromNW(state, x, y)||
-		attackedfromSW(state, x, y)||
-		attackedfromNE(state, x, y));
+				attackedfromNW(state, x, y)||
+				attackedfromSW(state, x, y)||
+				attackedfromNE(state, x, y));
 	}
 
 	private boolean attackedfromNE(Cell[][] state, int x, int y) {
 		int tempx=x+1;
 		int tempy=y+1;
-		
+
 		while(tempx<8&&tempy<8)
 		{
 			if(state[tempx][tempy].getpiece()==null)
@@ -145,9 +172,9 @@ public class King extends Piece{
 			else
 			{
 				if (state[tempx][tempy].getpiece() instanceof Bishop || state[tempx][tempy].getpiece() instanceof Queen)
-    				return true;
-    			else
-    				break;
+					return true;
+				else
+					break;
 			}
 		}
 		return false;
@@ -156,7 +183,7 @@ public class King extends Piece{
 	private boolean attackedfromSW(Cell[][] state, int x, int y) {
 		int tempx=x-1;
 		int tempy=y-1;
-		
+
 		while(tempx>=0&&tempy>=0)
 		{
 			if(state[tempx][tempy].getpiece()==null)
@@ -169,9 +196,9 @@ public class King extends Piece{
 			else
 			{
 				if (state[tempx][tempy].getpiece() instanceof Bishop || state[tempx][tempy].getpiece() instanceof Queen)
-    				return true;
-    			else
-    				break;
+					return true;
+				else
+					break;
 			}
 		}
 		return false;
@@ -192,17 +219,17 @@ public class King extends Piece{
 			else
 			{
 				if (state[tempx][tempy].getpiece() instanceof Bishop || state[tempx][tempy].getpiece() instanceof Queen)
-    				return true;
-    			else
-    				break;
+					return true;
+				else
+					break;
 			}
 		}
 		return false;
 	}
 
 	private boolean attackedfromSE(Cell[][] state, int x, int y) {
-    	int tempx=x+1;
-    	int tempy=y-1;
+		int tempx=x+1;
+		int tempy=y-1;
 		while(tempx<8&&tempy>=0)
 		{
 			if(state[tempx][tempy].getpiece()==null)
@@ -215,9 +242,9 @@ public class King extends Piece{
 			else
 			{
 				if (state[tempx][tempy].getpiece() instanceof Bishop || state[tempx][tempy].getpiece() instanceof Queen)
-    				return true;
-    			else
-    				break;
+					return true;
+				else
+					break;
 			}
 		}
 		return false;
@@ -233,73 +260,73 @@ public class King extends Piece{
 
 	private boolean attackedFromDown(Cell[][] state) {
 		for(int i=y-1;i>=0;i--)
-    	{
-    		if(state[x][i].getpiece()==null)
-    			continue;
-    		else if(state[x][i].getpiece().getcolor()==this.getcolor())
-    			break;
-    		else
-    		{
-    			if ((state[x][i].getpiece() instanceof Rook) || (state[x][i].getpiece() instanceof Queen))
-    				return true;
-    			else
-    				break;
-    		}
-    	}
-    	return false;
+		{
+			if(state[x][i].getpiece()==null)
+				continue;
+			else if(state[x][i].getpiece().getcolor()==this.getcolor())
+				break;
+			else
+			{
+				if ((state[x][i].getpiece() instanceof Rook) || (state[x][i].getpiece() instanceof Queen))
+					return true;
+				else
+					break;
+			}
+		}
+		return false;
 	}
 
 	private boolean attackedFromUp(Cell[][] state) {
 		for(int i=y+1;i<8;i++)
-    	{
-    		if(state[x][i].getpiece()==null)
-    			continue;
-    		else if(state[x][i].getpiece().getcolor()==this.getcolor())
-    			break;
-    		else
-    		{
-    			if ((state[x][i].getpiece() instanceof Rook) || (state[x][i].getpiece() instanceof Queen))
-    				return true;
-    			else
-    				break;
-    		}
-    	}
-    	return false;
+		{
+			if(state[x][i].getpiece()==null)
+				continue;
+			else if(state[x][i].getpiece().getcolor()==this.getcolor())
+				break;
+			else
+			{
+				if ((state[x][i].getpiece() instanceof Rook) || (state[x][i].getpiece() instanceof Queen))
+					return true;
+				else
+					break;
+			}
+		}
+		return false;
 	}
 
 	private boolean attackedFromRight(Cell[][] state) {
 		for(int i=x-1;i>=0;i--)
-    	{
-    		if(state[i][y].getpiece()==null)
-    			continue;
-    		else if(state[i][y].getpiece().getcolor()==this.getcolor())
-    			break;
-    		else
-    		{
-    			if ((state[i][y].getpiece() instanceof Rook) || (state[i][y].getpiece() instanceof Queen))
-    				return true;
-    			else
-    				break;
-    		}
-    	}
-    	return false;
+		{
+			if(state[i][y].getpiece()==null)
+				continue;
+			else if(state[i][y].getpiece().getcolor()==this.getcolor())
+				break;
+			else
+			{
+				if ((state[i][y].getpiece() instanceof Rook) || (state[i][y].getpiece() instanceof Queen))
+					return true;
+				else
+					break;
+			}
+		}
+		return false;
 	}
 
 	private boolean attackedFromLeft(Cell[][] state) {
 		for(int i=x+1;i<8;i++)
-    	{
-    		if(state[i][y].getpiece()==null)
-    			continue;
-    		else if(state[i][y].getpiece().getcolor()==this.getcolor())
-    			break;
-    		else
-    		{
-    			if ((state[i][y].getpiece() instanceof Rook) || (state[i][y].getpiece() instanceof Queen))
-    				return true;
-    			else
-    				break;
-    		}
-    	}
-    	return false;
+		{
+			if(state[i][y].getpiece()==null)
+				continue;
+			else if(state[i][y].getpiece().getcolor()==this.getcolor())
+				break;
+			else
+			{
+				if ((state[i][y].getpiece() instanceof Rook) || (state[i][y].getpiece() instanceof Queen))
+					return true;
+				else
+					break;
+			}
+		}
+		return false;
 	}
 }
