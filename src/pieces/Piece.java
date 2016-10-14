@@ -17,12 +17,21 @@ public abstract class Piece implements Cloneable{
 	private int color;
 	private String id=null;
 	private String path;
-	protected ArrayList<Cell> possiblemoves = new ArrayList<Cell>();  //Protected (access from child classes)
-	public abstract ArrayList<Cell> move(Cell pos[][],int x,int y);  //Abstract Function. Must be overridden
+	private ArrayList<Cell> possiblemoves = new ArrayList<Cell>();  //Protected (access from child classes)
+
+    public static int getMinCord() {
+        return MIN_CORD;
+    }
+
+    public static int getMaxCord() {
+        return MAX_CORD;
+    }
+
+    public abstract ArrayList<Cell> move(Cell pos[][],int x,int y);  //Abstract Function. Must be overridden
 	
 
-	public static final int MIN_CORD = 0;
-	public static final int MAX_CORD = 8;
+	private static final int MIN_CORD = 0;
+	private static final int MAX_CORD = 8;
 
 	//Id Setter
 	public void setId(String id)
@@ -57,7 +66,7 @@ public abstract class Piece implements Cloneable{
 	//Color Getter
 	public int getcolor()
 	{
-		return this.color;
+		return this.getColor();
 	}
 	
 	//Function to return the a "shallow" copy of the object. The copy has exact same variable value but different reference
@@ -65,4 +74,16 @@ public abstract class Piece implements Cloneable{
 	{
 		return (Piece) this.clone();
 	}
+
+    public int getColor() {
+        return color;
+    }
+
+    public ArrayList<Cell> getPossiblemoves() {
+        return possiblemoves;
+    }
+
+    public void setPossiblemoves(ArrayList<Cell> possiblemoves) {
+        this.possiblemoves = possiblemoves;
+    }
 }
