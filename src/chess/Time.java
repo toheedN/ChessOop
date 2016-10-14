@@ -25,6 +25,11 @@ public class Time
        this.label = passedLabel;
        setTimerem(Main.timeRemaining);
     }
+  //A function that starts the timer
+    public void stop()
+    {
+    	getCountdownTimer().stop();
+    }
 
     //A function that starts the timer
     public void start()

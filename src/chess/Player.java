@@ -1,4 +1,4 @@
-package src.chess;
+package chess;
 
 import java.io.EOFException;
 import java.io.File;
