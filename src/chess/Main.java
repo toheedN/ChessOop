@@ -128,7 +128,7 @@ public class Main extends JFrame implements MouseListener
 			chance^=1;
 			gameend();
 		}
-		if(destinationlist.isEmpty()==false)
+		if(!destinationlist.isEmpty())
 			cleandestinations(destinationlist);
 		if(previous!=null)
 			previous.deselect();
@@ -216,7 +216,7 @@ public class Main extends JFrame implements MouseListener
 			((King)(newboardstate[tocell.x][tocell.y].getpiece())).sety(tocell.y);
 		}
 		newboardstate[fromcell.x][fromcell.y].removePiece();
-		if (((King)(newboardstate[getKing(chance).getx()][getKing(chance).gety()].getpiece())).isindanger(newboardstate)==true)
+		if (((King) (newboardstate[getKing(chance).getx()][getKing(chance).gety()].getpiece())).isindanger(newboardstate))
 			return true;
 		else
 			return false;
@@ -246,7 +246,7 @@ public class Main extends JFrame implements MouseListener
   			y=tempc.y;
   		}
   		newboardstate[fromcell.x][fromcell.y].removePiece();		
-  		if ((((King)(newboardstate[x][y].getpiece())).isindanger(newboardstate)==false))
+  		if ((!((King) (newboardstate[x][y].getpiece())).isindanger(newboardstate)))
   			newlist.add(tempc);
   	}
   	return newlist;
@@ -276,7 +276,7 @@ public class Main extends JFrame implements MouseListener
   			y=tempc.y;
   		}
   		newboardstate[fromcell.x][fromcell.y].removePiece();
-  		if ((((King)(newboardstate[x][y].getpiece())).isindanger(newboardstate)==false))
+  		if ((!((King) (newboardstate[x][y].getpiece())).isindanger(newboardstate)))
   			newlist.add(tempc);
   	}
   	return newlist;
@@ -346,7 +346,7 @@ public class Main extends JFrame implements MouseListener
 		{
 			if(boardState[getKing(chance).getx()][getKing(chance).gety()].ischeck())
 				destinationlist = new ArrayList<Cell>(filterdestination(destinationlist,c));
-			else if(destinationlist.isEmpty()==false && willkingbeindanger(c,destinationlist.get(0)))
+			else if(!destinationlist.isEmpty() && willkingbeindanger(c,destinationlist.get(0)))
 				destinationlist.clear();
 		}
 		highlightdestinations(destinationlist);
@@ -407,7 +407,7 @@ public class Main extends JFrame implements MouseListener
 							gameend();
 						}
 					}
-					if(getKing(chance).isindanger(boardState)==false)
+					if(!getKing(chance).isindanger(boardState))
 						boardState[getKing(chance).getx()][getKing(chance).gety()].removecheck();
 					if(c.getpiece() instanceof King)
 					{

@@ -270,7 +270,7 @@ class SelectHandler implements ActionListener
 				return;
 			JPanel det=(color==0)?Display.wdetails:Display.bdetails;
 			JPanel PL=(color==0)?Display.WhitePlayer:Display.BlackPlayer; 
-			if(Main.selected==true)
+			if(Main.selected)
 				det.removeAll();
 			n=(String)jc.getSelectedItem();
 			Iterator<Player> it=pl.iterator();
