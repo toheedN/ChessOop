@@ -45,25 +45,25 @@ public class Bishop extends Piece{
 
 		bishopSEdirectionCheck(state, x,y);
 		
-		return getPossiblemoves();
+		return possiblemoves;
 	}
 
 	private void resetPossibleMoves() {
-		getPossiblemoves().clear();
+		possiblemoves.clear();
 	}
 
 	private void bishopSEdirectionCheck(Cell[][] state, int x, int y) {
 		int tempx = x+1;
 		int tempy = y+1;
-		while(tempx< getMaxCord() && tempy< getMaxCord())
+		while(tempx<MAX_CORD && tempy<MAX_CORD)
 		{
 			if(state[tempx][tempy].getpiece()==null)
-				getPossiblemoves().add(state[tempx][tempy]);
+				possiblemoves.add(state[tempx][tempy]);
 			else if(state[tempx][tempy].getpiece().getcolor()==this.getcolor())
 				break;
 			else
 			{
-				getPossiblemoves().add(state[tempx][tempy]);
+				possiblemoves.add(state[tempx][tempy]);
 				break;
 			}
 			tempx++;
@@ -75,15 +75,15 @@ public class Bishop extends Piece{
 		int tempx = x-1;
 		int tempy = y-1;
 		
-		while(tempx>= getMinCord() && tempy>= getMinCord())
+		while(tempx>=MIN_CORD && tempy>=MIN_CORD)
 		{
 			if(state[tempx][tempy].getpiece()==null)
-				getPossiblemoves().add(state[tempx][tempy]);
+				possiblemoves.add(state[tempx][tempy]);
 			else if(state[tempx][tempy].getpiece().getcolor()==this.getcolor())
 				break;
 			else
 			{
-				getPossiblemoves().add(state[tempx][tempy]);
+				possiblemoves.add(state[tempx][tempy]);
 				break;
 			}
 			tempx--;
@@ -95,15 +95,15 @@ public class Bishop extends Piece{
 		int tempx = x-1;
 		int tempy = y+1;
 		
-		while(tempx>= getMinCord() &&tempy< getMaxCord())
+		while(tempx>=MIN_CORD&&tempy<MAX_CORD)
 		{
 			if(state[tempx][tempy].getpiece()==null)
-				getPossiblemoves().add(state[tempx][tempy]);
+				possiblemoves.add(state[tempx][tempy]);
 			else if(state[tempx][tempy].getpiece().getcolor()==this.getcolor())
 				break;
 			else
 			{
-				getPossiblemoves().add(state[tempx][tempy]);
+				possiblemoves.add(state[tempx][tempy]);
 				break;
 			}
 			tempx--;
@@ -114,17 +114,17 @@ public class Bishop extends Piece{
 	private void BishopNWdirectionCheck(Cell[][] state, int x, int y) {
 		int tempx = x+1;
 		int tempy = y-1;
-		while(tempx< getMaxCord() && tempy>= getMinCord())
+		while(tempx<MAX_CORD && tempy>=MIN_CORD)
 		{
 			if(state[tempx][tempy].getpiece()==null)
 			{
-				getPossiblemoves().add(state[tempx][tempy]);
+				possiblemoves.add(state[tempx][tempy]);
 			}
 			else if(state[tempx][tempy].getpiece().getcolor()==this.getcolor())
 				break;
 			else
 			{
-				getPossiblemoves().add(state[tempx][tempy]);
+				possiblemoves.add(state[tempx][tempy]);
 				break;
 			}
 			tempx++;

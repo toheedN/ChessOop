@@ -20,16 +20,15 @@ public class Cell extends JPanel implements Cloneable{
 	private boolean ispossibledestination;
 	private JLabel content;
 	private Piece piece;
-	private int x;
-	private int y;                             //is public because this is to be accessed by all the other class
+	int x,y;                             //is public because this is to be accessed by all the other class
 	private boolean isSelected=false;
 	private boolean ischeck=false;
 
 	//Constructors
 	public Cell(int x,int y,Piece p)
 	{		
-		this.setX(x);
-		this.setY(y);
+		this.x=x;
+		this.y=y;
 
 		setLayout(new BorderLayout());
 
@@ -39,29 +38,11 @@ public class Cell extends JPanel implements Cloneable{
 			setPiece(p);
 	}
 
-	public static int getRVAL() {
-		return RVAL;
-	}
-
-	public static int getGVAL() {
-		return GVAL;
-	}
-
-	public static int getBVAL() {
-		return BVAL;
-	}
-
-	public static long getSerialVersionUID() {
-		return serialVersionUID;
-	}
-
 	private void setBackGroundColor(int x, int y) {
-		if(evenSumofCoordinates(x, y)) {
-			setBackground(new Color(getRVAL(), getGVAL(), getBVAL()));
-		}
+		if(evenSumofCoordinates(x, y))
+			setBackground(new Color(RVAL,GVAL,BVAL));
 		else
-		{
-			setBackground(Color.white);}
+			setBackground(Color.white);
 	}
 
 	private boolean evenSumofCoordinates(int x, int y) {
@@ -71,11 +52,11 @@ public class Cell extends JPanel implements Cloneable{
 	//A constructor that takes a cell as argument and returns a new cell will the same data but different reference
 	public Cell(Cell cell) throws CloneNotSupportedException
 	{
-		this.setX(cell.getX());
-		this.setY(cell.getY());
+		this.x=cell.x;
+		this.y=cell.y;
 		setLayout(new BorderLayout());
 
-		setBackGroundColor(getX(), getY());
+		setBackGroundColor(x, y);
 
 		setPiece(cell);
 	}
@@ -95,53 +76,53 @@ public class Cell extends JPanel implements Cloneable{
 	}
 
 	private void inflateCellWithPiece(Piece p) {
-		setPiece(p);
+		piece=p;
 		ImageIcon img=new javax.swing.ImageIcon(this.getClass().getResource(p.getPath()));
-		setContent(new JLabel(img));
-		this.add(getContent());
+		content=new JLabel(img);
+		this.add(content);
 	}
 
 	public void removePiece()      //Function to remove a piece from the cell
 	{
 
 		piece=null;
-		this.remove(getContent());
+		this.remove(content);
 
 	}
 
 
 	public Piece getpiece()    //Function to access piece of a particular cell
 	{
-		return this.getPiece();
+		return this.piece;
 	}
 
 	public void select()       //Function to mark a cell indicating it's selection
 	{
 		this.setBorder(BorderFactory.createLineBorder(Color.red,6));
-		this.setSelected(true);
+		this.isSelected=true;
 	}
 
 	public boolean isselected()   //Function to return if the cell is under selection
 	{
-		return this.isSelected();
+		return this.isSelected;
 	}
 
 	public void deselect()      //Function to delselect the cell
 	{
 		this.setBorder(null);
-		this.setSelected(false);
+		this.isSelected=false;
 	}
 
 	public void setpossibledestination()     //Function to highlight a cell to indicate that it is a possible valid move
 	{
 		this.setBorder(BorderFactory.createLineBorder(Color.blue,4));
-		this.setIspossibledestination(true);
+		this.ispossibledestination=true;
 	}
 
 	public void removepossibledestination()      //Remove the cell from the list of possible moves
 	{
 		this.setBorder(null);
-		this.setIspossibledestination(false);
+		this.ispossibledestination=false;
 	}
 
 	public boolean ispossibledestination()    //Function to check if the cell is a possible destination 
@@ -152,64 +133,18 @@ public class Cell extends JPanel implements Cloneable{
 	public void setcheck()     //Function to highlight the current cell as checked (For King)
 	{
 		this.setBackground(Color.RED);
-		this.setIscheck(true);
+		this.ischeck=true;
 	}
 
 	public void removecheck()   //Function to deselect check
 	{
 		this.setBorder(null);
-		setBackGroundColor(getX(), getY());
-		this.setIscheck(false);
+		setBackGroundColor(x, y);
+		this.ischeck=false;
 	}
 
 	public boolean ischeck()    //Function to check if the current cell is in check
 	{
 		return ischeck;
-	}
-
-	public void setIspossibledestination(boolean ispossibledestination) {
-		this.ispossibledestination = ispossibledestination;
-	}
-
-	public JLabel getContent() {
-		return content;
-	}
-
-	public void setContent(JLabel content) {
-		this.content = content;
-	}
-
-	public Piece getPiece() {
-		return piece;
-	}
-
-	@Override
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	@Override
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public boolean isSelected() {
-		return isSelected;
-	}
-
-	public void setSelected(boolean selected) {
-		isSelected = selected;
-	}
-
-	public void setIscheck(boolean ischeck) {
-		this.ischeck = ischeck;
 	}
 }

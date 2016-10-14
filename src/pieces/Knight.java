@@ -28,9 +28,9 @@ public class Knight extends Piece{
 	//Knight moves only 2(1/2) steps
 	public ArrayList<Cell> move(Cell state[][],int x,int y)
 	{
-		getPossiblemoves().clear();
+		possiblemoves.clear();
 		moveKnightDiagonally(state, x, y);
-		return getPossiblemoves();
+		return possiblemoves;
 	}
 
 	private void moveKnightDiagonally(Cell[][] state, int x, int y) {
@@ -40,7 +40,7 @@ public class Knight extends Piece{
 			if((posx[i]>=0 && posx[i]<8 && posy[i]>=0 && posy[i]<8))
 				if((state[posx[i]][posy[i]].getpiece()==null||state[posx[i]][posy[i]].getpiece().getcolor()!=this.getcolor()))
 				{
-					getPossiblemoves().add(state[posx[i]][posy[i]]);
+					possiblemoves.add(state[posx[i]][posy[i]]);
 				}
 	}
 }
