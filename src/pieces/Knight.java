@@ -1,46 +1,41 @@
 package pieces;
 
-import java.util.ArrayList;
-
 import chess.Cell;
+
+import java.util.ArrayList;
 
 /**
  * This is the Knight Class inherited from the Piece abstract class
- *  
- *
  */
-public class Knight extends Piece{
-	
-	//Constructor
-	public Knight(String i,String p,int c)
-	{
-		setAttributes(i, p, c);
-	}
+public class Knight extends Piece {
 
-	private void setAttributes(String i, String p, int c) {
-		setId(i);
-		setPath(p);
-		setColor(c);
-	}
-	
-	//Move Function overridden
-	//There are at max 8 possible moves for a knight at any point of time.
-	//Knight moves only 2(1/2) steps
-	public ArrayList<Cell> move(Cell state[][],int x,int y)
-	{
-		getPossiblemoves().clear();
-		moveKnightDiagonally(state, x, y);
-		return getPossiblemoves();
-	}
+    //Constructor
+    public Knight(String i, String p, int c) {
+        setAttributes(i, p, c);
+    }
 
-	private void moveKnightDiagonally(Cell[][] state, int x, int y) {
-		int posx[]={x+1,x+1,x+2,x+2,x-1,x-1,x-2,x-2};
-		int posy[]={y-2,y+2,y-1,y+1,y-2,y+2,y-1,y+1};
-		for(int i=0;i<8;i++)
-			if((posx[i]>=0 && posx[i]<8 && posy[i]>=0 && posy[i]<8))
-				if((state[posx[i]][posy[i]].getpiece()==null||state[posx[i]][posy[i]].getpiece().getcolor()!=this.getcolor()))
-				{
-					getPossiblemoves().add(state[posx[i]][posy[i]]);
-				}
-	}
+    private void setAttributes(String i, String p, int c) {
+        setId(i);
+        setPath(p);
+        setColor(c);
+    }
+
+    //Move Function overridden
+    //There are at max 8 possible moves for a knight at any point of time.
+    //Knight moves only 2(1/2) steps
+    public ArrayList<Cell> move(Cell state[][], int x, int y) {
+        getPossiblemoves().clear();
+        moveKnightDiagonally(state, x, y);
+        return getPossiblemoves();
+    }
+
+    private void moveKnightDiagonally(Cell[][] state, int x, int y) {
+        int posx[] = {x + 1, x + 1, x + 2, x + 2, x - 1, x - 1, x - 2, x - 2};
+        int posy[] = {y - 2, y + 2, y - 1, y + 1, y - 2, y + 2, y - 1, y + 1};
+        for (int i = 0; i < 8; i++)
+            if ((posx[i] >= 0 && posx[i] < 8 && posy[i] >= 0 && posy[i] < 8))
+                if ((state[posx[i]][posy[i]].getpiece() == null || state[posx[i]][posy[i]].getpiece().getcolor() != this.getcolor())) {
+                    getPossiblemoves().add(state[posx[i]][posy[i]]);
+                }
+    }
 }

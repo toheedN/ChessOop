@@ -1,8 +1,8 @@
 package pieces;
 
-import java.util.ArrayList;
-
 import chess.Cell;
+
+import java.util.ArrayList;
 
 
 /**
@@ -11,79 +11,70 @@ import chess.Cell;
  * The move() function an abstract function that has to be overridden in all the inherited class
  * It implements Cloneable interface as a copy of the piece is required very often
  */
-public abstract class Piece implements Cloneable{
+public abstract class Piece implements Cloneable {
 
-	//Member Variables
-	private int color;
-	private String id=null;
-	private String path;
-	private ArrayList<Cell> possiblemoves = new ArrayList<Cell>();  //Protected (access from child classes)
+    private static final int MIN_CORD = 0;
+    private static final int MAX_CORD = 8;
+    //Member Variables
+    private int color;
+    private String id = null;
+    private String path;
+    private ArrayList<Cell> possiblemoves = new ArrayList<Cell>();  //Protected (access from child classes)
 
-	public static int getMinCord() {
-		return MIN_CORD;
-	}
+    public static int getMinCord() {
+        return MIN_CORD;
+    }
 
-	public static int getMaxCord() {
-		return MAX_CORD;
-	}
+    public static int getMaxCord() {
+        return MAX_CORD;
+    }
 
-	public abstract ArrayList<Cell> move(Cell pos[][],int x,int y);  //Abstract Function. Must be overridden
-	
+    public abstract ArrayList<Cell> move(Cell pos[][], int x, int y);  //Abstract Function. Must be overridden
 
-	private static final int MIN_CORD = 0;
-	private static final int MAX_CORD = 8;
+    //Path getter
+    public String getPath() {
+        return path;
+    }
 
-	//Id Setter
-	public void setId(String id)
-	{
-		this.id=id;
-	}
-	
-	//Path Setter
-	public void setPath(String path)
-	{
-		this.path=path;
-	}
-	
-	//Color Setter
-	public void setColor(int c)
-	{
-		this.color=c;
-	}
-	
-	//Path getter
-	public String getPath()
-	{
-		return path;
-	}
-	
-	//Id getter
-	public String getId()
-	{
-		return id;
-	}
-	
-	//Color Getter
-	public int getcolor()
-	{
-		return this.getColor();
-	}
-	
-	//Function to return the a "shallow" copy of the object. The copy has exact same variable value but different reference
-	public Piece getcopy() throws CloneNotSupportedException
-	{
-		return (Piece) this.clone();
-	}
+    //Path Setter
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-	public int getColor() {
-		return color;
-	}
+    //Id getter
+    public String getId() {
+        return id;
+    }
 
-	public ArrayList<Cell> getPossiblemoves() {
-		return possiblemoves;
-	}
+    //Id Setter
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setPossiblemoves(ArrayList<Cell> possiblemoves) {
-		this.possiblemoves = possiblemoves;
-	}
+    //Color Getter
+    public int getcolor() {
+        return this.getColor();
+    }
+
+    //Function to return the a "shallow" copy of the object. The copy has exact same variable value but different reference
+    public Piece getcopy() throws CloneNotSupportedException {
+        return (Piece) this.clone();
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    //Color Setter
+    public void setColor(int c) {
+        this.color = c;
+    }
+
+    public ArrayList<Cell> getPossiblemoves() {
+        return possiblemoves;
+    }
+
+    public void setPossiblemoves(ArrayList<Cell> possiblemoves) {
+        this.possiblemoves = possiblemoves;
+    }
 }
