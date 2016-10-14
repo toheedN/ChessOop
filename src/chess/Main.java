@@ -1,15 +1,9 @@
 package chess;
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import pieces.*;
-import java.awt.*;
+
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -31,132 +25,353 @@ public class Main extends JFrame implements MouseListener
 	private static final long serialVersionUID = 1L;
 	
 	//Variable Declaration
-	public static Pieces pieces;
-	public static Display display;
-	public static  final int Height=700;
-	public static final int Width=1110;
-	public static Cell c,previous;
-	public static int chance=0;
-	public static Cell boardState[][];
-	public static ArrayList<Cell> destinationlist = new ArrayList<Cell>();
-	public static Player White=Player.createPlayer("null"),Black=Player.createPlayer("null");
-	public static Time timer;
-	public static Main Mainboard;
-	public static boolean selected=false,end=false;
-	public static ArrayList<Player> wplayer,bplayer;
-	public static ArrayList<String> Wnames=new ArrayList<String>();
-	public static ArrayList<String> Bnames=new ArrayList<String>();
-	public static String wname=null,bname=null,winner=null;
-	public static String move;
-	public static Player tempPlayer;
-	public static String[] WNames={},BNames={};
-	public static int timeRemaining=60;
+	private static Pieces pieces;
+	private static Display display;
+	private static  final int Height=700;
+	private static final int Width=1110;
+	private static Cell c;
+	private static Cell previous;
+	private static int chance=0;
+	private static Cell[][] boardState;
+	private static ArrayList<Cell> destinationlist = new ArrayList<Cell>();
+	private static Player White=Player.createPlayer("null");
+	private static Player Black=Player.createPlayer("null");
+	private static Time timer;
+	private static Main Mainboard;
+	private static boolean selected=false;
+	private static boolean end=false;
+	private static ArrayList<Player> wplayer;
+	private static ArrayList<Player> bplayer;
+	private static ArrayList<String> Wnames=new ArrayList<String>();
+	private static ArrayList<String> Bnames=new ArrayList<String>();
+	private static String wname=null;
+	private static String bname=null;
+	private static String winner=null;
+	private static String move;
+	private static Player tempPlayer;
+	private static String[] WNames={};
+	private static String[] BNames={};
+	private static int timeRemaining=60;
 	
 	
 	public static void main(String[] args){
 	
 	//variable initialization
 	//	Pieces.variableInitialization();
-		pieces = new Pieces();
-		display = new Display();
+		setPieces(new Pieces());
+		setDisplay(new Display());
 	//Setting up the Display.board
 		SettingBoard();
 		
 		}
 
 	private static void SettingBoard(){
-		Mainboard = new Main();
-		Mainboard.setVisible(true);	
-		Mainboard.setResizable(false);
+		setMainboard(new Main());
+		getMainboard().setVisible(true);
+		getMainboard().setResizable(false);
 	}
 	
 	
 	//Constructor
 	private Main()
     {
-		setSize(Width,Height);
+		setSize(getWidth(), getHeight());
 		setTitle("Chess");
-		timeRemaining=60;
-		move="White";
-		wname=null;
-		bname=null;
-		winner=null;
-		Wnames=new ArrayList<String>();
-		Bnames=new ArrayList<String>();
+		setTimeRemaining(60);
+		setMove("White");
+		setWname(null);
+		setBname(null);
+		setWinner(null);
+		setWnames(new ArrayList<String>());
+		setBnames(new ArrayList<String>());
 		ImageIcon img = new ImageIcon(this.getClass().getResource("icon.png"));
 		this.setIconImage(img.getImage());
 		
 		//Time Slider Details
-		display.timeSliderInit();
+		getDisplay().timeSliderInit();
 		
 		
 		//Fetching Details of all Players
-		wplayer= Player.fetch_players();
-		Iterator<Player> witr=wplayer.iterator();
+		setWplayer(Player.fetch_players());
+		Iterator<Player> witr= getWplayer().iterator();
 		while(witr.hasNext())
-			Wnames.add(witr.next().name());
+			getWnames().add(witr.next().name());
 				
-		bplayer= Player.fetch_players();
-		Iterator<Player> bitr=bplayer.iterator();
+		setBplayer(Player.fetch_players());
+		Iterator<Player> bitr= getBplayer().iterator();
 		while(bitr.hasNext())
-			Bnames.add(bitr.next().name());
-	    WNames=Wnames.toArray(WNames);	
-		BNames=Bnames.toArray(BNames);
+			getBnames().add(bitr.next().name());
+	    setWNames(getWnames().toArray(getWNames()));
+		setBNames(getBnames().toArray(getBNames()));
 		
-		display.setContent(this);
+		getDisplay().setContent(this);
 		
 		//Defining the Player Box in Control Panel
-		display.playerBoxInit();
+		getDisplay().playerBoxInit();
 
 		//Defining all the Cells
-		display.cellsInit(this);
+		getDisplay().cellsInit(this);
 		
-		display.playerDisplayInit();
+		getDisplay().playerDisplayInit();
 	
 		//The Left Layout When Game is inactive
-		display.setLeftLayout();
+		getDisplay().setLeftLayout();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
-	
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public static Pieces getPieces() {
+		return pieces;
+	}
+
+	public static void setPieces(Pieces pieces) {
+		Main.pieces = pieces;
+	}
+
+	public static Display getDisplay() {
+		return display;
+	}
+
+	public static void setDisplay(Display display) {
+		Main.display = display;
+	}
+
+	@Override
+	public  int getHeight() {
+		return Height;
+	}
+
+	@Override
+	public  int getWidth() {
+		return Width;
+	}
+
+	public static Cell getC() {
+		return c;
+	}
+
+	public static void setC(Cell c) {
+		Main.c = c;
+	}
+
+	public static Cell getPrevious() {
+		return previous;
+	}
+
+	public static void setPrevious(Cell previous) {
+		Main.previous = previous;
+	}
+
+	public static int getChance() {
+		return chance;
+	}
+
+	public static void setChance(int chance) {
+		Main.chance = chance;
+	}
+
+	public static Cell[][] getBoardState() {
+		return boardState;
+	}
+
+	public static void setBoardState(Cell[][] boardState) {
+		Main.boardState = boardState;
+	}
+
+	public static ArrayList<Cell> getDestinationlist() {
+		return destinationlist;
+	}
+
+	public static void setDestinationlist(ArrayList<Cell> destinationlist) {
+		Main.destinationlist = destinationlist;
+	}
+
+	public static Player getWhite() {
+		return White;
+	}
+
+	public static void setWhite(Player white) {
+		White = white;
+	}
+
+	public static Player getBlack() {
+		return Black;
+	}
+
+	public static void setBlack(Player black) {
+		Black = black;
+	}
+
+	public static Time getTimer() {
+		return timer;
+	}
+
+	public static void setTimer(Time timer) {
+		Main.timer = timer;
+	}
+
+	public static Main getMainboard() {
+		return Mainboard;
+	}
+
+	public static void setMainboard(Main mainboard) {
+		Mainboard = mainboard;
+	}
+
+	public static boolean isSelected() {
+		return selected;
+	}
+
+	public static void setSelected(boolean selected) {
+		Main.selected = selected;
+	}
+
+	public static boolean isEnd() {
+		return end;
+	}
+
+	public static void setEnd(boolean end) {
+		Main.end = end;
+	}
+
+	public static ArrayList<Player> getWplayer() {
+		return wplayer;
+	}
+
+	public static void setWplayer(ArrayList<Player> wplayer) {
+		Main.wplayer = wplayer;
+	}
+
+	public static ArrayList<Player> getBplayer() {
+		return bplayer;
+	}
+
+	public static void setBplayer(ArrayList<Player> bplayer) {
+		Main.bplayer = bplayer;
+	}
+
+	public static ArrayList<String> getWnames() {
+		return Wnames;
+	}
+
+	public static void setWnames(ArrayList<String> wnames) {
+		Wnames = wnames;
+	}
+
+	public static ArrayList<String> getBnames() {
+		return Bnames;
+	}
+
+	public static void setBnames(ArrayList<String> bnames) {
+		Bnames = bnames;
+	}
+
+	public static String getWname() {
+		return wname;
+	}
+
+	public static void setWname(String wname) {
+		Main.wname = wname;
+	}
+
+	public static String getBname() {
+		return bname;
+	}
+
+	public static void setBname(String bname) {
+		Main.bname = bname;
+	}
+
+	public static String getWinner() {
+		return winner;
+	}
+
+	public static void setWinner(String winner) {
+		Main.winner = winner;
+	}
+
+	public static String getMove() {
+		return move;
+	}
+
+	public static void setMove(String move) {
+		Main.move = move;
+	}
+
+	public static Player getTempPlayer() {
+		return tempPlayer;
+	}
+
+	public static void setTempPlayer(Player tempPlayer) {
+		Main.tempPlayer = tempPlayer;
+	}
+
+	public static String[] getWNames() {
+		return WNames;
+	}
+
+	public static void setWNames(String[] WNames) {
+		Main.WNames = WNames;
+	}
+
+	public static String[] getBNames() {
+		return BNames;
+	}
+
+	public static void setBNames(String[] BNames) {
+		Main.BNames = BNames;
+	}
+
+	public static int getTimeRemaining() {
+		return timeRemaining;
+	}
+
+	public static void setTimeRemaining(int timeRemaining) {
+		Main.timeRemaining = timeRemaining;
+	}
+
 
 	// A function to change the chance from White Player to Black Player or vice verse
 	// It is made public because it is to be accessed in the Time Class
 	public void changechance()
 	{
-		if (boardState[getKing(chance).getx()][getKing(chance).gety()].ischeck())
+		if (getBoardState()[getKing(getChance()).getx()][getKing(getChance()).gety()].ischeck())
 		{
-			chance^=1;
+			setChance(getChance() ^ 1);
 			gameend();
 		}
-		if(!destinationlist.isEmpty())
-			cleandestinations(destinationlist);
-		if(previous!=null)
-			previous.deselect();
-		previous=null;
-		chance^=1;
-		if(!end && timer!=null)
+		if(!getDestinationlist().isEmpty())
+			cleandestinations(getDestinationlist());
+		if(getPrevious() !=null)
+			getPrevious().deselect();
+		setPrevious(null);
+		setChance(getChance() ^ 1);
+		if(!isEnd() && getTimer() !=null)
 		{
-			timer.reset();
-			timer.start();
-			display.removePlayer();
+			getTimer().reset();
+			getTimer().start();
+			getDisplay().removePlayer();
 			changeTurn();
 
 		}
 	}
 	
 	private void changeTurn(){
-		if(move=="White")
-			move="Black";
+		if(getMove() =="White")
+			setMove("Black");
 		else
-			move="White";
+			setMove("White");
 		
-		display.changeTurn(move);
+		getDisplay().changeTurn(getMove());
 	}
 	//A function to retrieve the Black King or White King
 	private King getKing(int color)
 	{
 		boolean isWhite=color==0;
-		return pieces.returnKing(isWhite);
+		return getPieces().returnKing(isWhite);
 	}
 	
 	//A function to clean the highlights of possible destination cells
@@ -182,7 +397,7 @@ public class Main extends JFrame implements MouseListener
     		{	
     			try
     				{ 
-    				newboardstate[i][j] = new Cell(boardState[i][j]);
+    				newboardstate[i][j] = new Cell(getBoardState()[i][j]);
     				} 
     			catch (CloneNotSupportedException e){
 	    			e.printStackTrace(); 
@@ -216,7 +431,7 @@ public class Main extends JFrame implements MouseListener
 			((King)(newboardstate[tocell.x][tocell.y].getpiece())).sety(tocell.y);
 		}
 		newboardstate[fromcell.x][fromcell.y].removePiece();
-		if (((King) (newboardstate[getKing(chance).getx()][getKing(chance).gety()].getpiece())).isindanger(newboardstate))
+		if (((King) (newboardstate[getKing(getChance()).getx()][getKing(getChance()).gety()].getpiece())).isindanger(newboardstate))
 			return true;
 		else
 			return false;
@@ -236,8 +451,8 @@ public class Main extends JFrame implements MouseListener
   		Cell tempc = it.next();
       	newboardstate = checkForKingDanger(newboardstate ,tempc , fromcell);
 
-      	x=getKing(chance).getx();
-  		y=getKing(chance).gety();
+      	x=getKing(getChance()).getx();
+  		y=getKing(getChance()).gety();
   		if(newboardstate[fromcell.x][fromcell.y].getpiece() instanceof King)
   		{
   			((King)(newboardstate[tempc.x][tempc.y].getpiece())).setx(tempc.x);
@@ -290,11 +505,11 @@ public class Main extends JFrame implements MouseListener
     	{
     		for(int j=0;j<8;j++)
     		{
-    			if (boardState[i][j].getpiece()!=null && boardState[i][j].getpiece().getcolor()==color)
+    			if (getBoardState()[i][j].getpiece()!=null && getBoardState()[i][j].getpiece().getcolor()==color)
     			{
     				dlist.clear();
-    				dlist=boardState[i][j].getpiece().move(boardState, i, j);
-    				dlist=incheckfilter(dlist,boardState[i][j],color);
+    				dlist= getBoardState()[i][j].getpiece().move(getBoardState(), i, j);
+    				dlist=incheckfilter(dlist, getBoardState()[i][j],color);
     				if(dlist.size()!=0)
     					return false;
     			}
@@ -307,56 +522,56 @@ public class Main extends JFrame implements MouseListener
     @SuppressWarnings("deprecation")
 	private void gameend()
     {
-    	cleandestinations(destinationlist);
-    	display.disabledTime();
-    	timer.stop();
-    	if(previous!=null)
-    		previous.removePiece();
-    	if(chance==0)
-		{	White.updateGamesWon();
-			White.Update_Player();
-			winner=White.name();
+    	cleandestinations(getDestinationlist());
+    	getDisplay().disabledTime();
+    	getTimer().stop();
+    	if(getPrevious() !=null)
+    		getPrevious().removePiece();
+    	if(getChance() ==0)
+		{	getWhite().updateGamesWon();
+			getWhite().Update_Player();
+			setWinner(getWhite().name());
 		}
 		else
 		{
-			Black.updateGamesWon();
-			Black.Update_Player();
-			winner=Black.name();
+			getBlack().updateGamesWon();
+			getBlack().Update_Player();
+			setWinner(getBlack().name());
 		}
-    	display.endDisplay(winner);
+    	getDisplay().endDisplay(getWinner());
     	
-    	end=true;
-		Mainboard.disable();
-		Mainboard.dispose();
-		Mainboard = new Main();
-		Mainboard.setVisible(true);
-		Mainboard.setResizable(false);
+    	setEnd(true);
+		getMainboard().disable();
+		getMainboard().dispose();
+		setMainboard(new Main());
+		getMainboard().setVisible(true);
+		getMainboard().setResizable(false);
     }
     
     
     public void initializeClick()
     {
-		c.select();
-		previous=c;
-		destinationlist.clear();
-		destinationlist=c.getpiece().move(boardState, c.x, c.y);
-		if(c.getpiece() instanceof King)
-			destinationlist=filterdestination(destinationlist,c);
+		getC().select();
+		setPrevious(getC());
+		getDestinationlist().clear();
+		setDestinationlist(getC().getpiece().move(getBoardState(), getC().x, getC().y));
+		if(getC().getpiece() instanceof King)
+			setDestinationlist(filterdestination(getDestinationlist(), getC()));
 		else
 		{
-			if(boardState[getKing(chance).getx()][getKing(chance).gety()].ischeck())
-				destinationlist = new ArrayList<Cell>(filterdestination(destinationlist,c));
-			else if(!destinationlist.isEmpty() && willkingbeindanger(c,destinationlist.get(0)))
-				destinationlist.clear();
+			if(getBoardState()[getKing(getChance()).getx()][getKing(getChance()).gety()].ischeck())
+				setDestinationlist(new ArrayList<Cell>(filterdestination(getDestinationlist(), getC())));
+			else if(!getDestinationlist().isEmpty() && willkingbeindanger(getC(), getDestinationlist().get(0)))
+				getDestinationlist().clear();
 		}
-		highlightdestinations(destinationlist);
+		highlightdestinations(getDestinationlist());
     }
 
     
     public void  setKingPieceCoordinates(){
     	
-    	((King)c.getpiece()).setx(c.x);
-		((King)c.getpiece()).sety(c.y);
+    	((King) getC().getpiece()).setx(getC().x);
+		((King) getC().getpiece()).sety(getC().y);
     	
     }
    
@@ -367,78 +582,78 @@ public class Main extends JFrame implements MouseListener
 	@Override
 	public void mouseClicked(MouseEvent arg0){
 		// TODO Auto-generated method stub
-		c=(Cell)arg0.getSource();
-		if (previous==null)
+		setC((Cell)arg0.getSource());
+		if (getPrevious() ==null)
 		{
-			if(c.getpiece()!=null)
+			if(getC().getpiece()!=null)
 			{
-				if(c.getpiece().getcolor()!=chance)
+				if(getC().getpiece().getcolor()!= getChance())
 					return;
 				initializeClick();
 			}
 		}
 		else
 		{
-			if(c.x==previous.x && c.y==previous.y)
+			if(getC().x== getPrevious().x && getC().y== getPrevious().y)
 			{
-				c.deselect();
-				cleandestinations(destinationlist);
-				destinationlist.clear();
-				previous=null;
+				getC().deselect();
+				cleandestinations(getDestinationlist());
+				getDestinationlist().clear();
+				setPrevious(null);
 			}
-			else if(c.getpiece()==null||previous.getpiece().getcolor()!=c.getpiece().getcolor())
+			else if(getC().getpiece()==null|| getPrevious().getpiece().getcolor()!= getC().getpiece().getcolor())
 			{
-				if(c.ispossibledestination())
+				if(getC().ispossibledestination())
 				{
-					if(c.getpiece()!=null)
-						c.removePiece();
-					c.setPiece(previous.getpiece());
-					if (previous.ischeck())
-						previous.removecheck();
-					previous.removePiece();
-					if(getKing(chance^1).isindanger(boardState))
+					if(getC().getpiece()!=null)
+						getC().removePiece();
+					getC().setPiece(getPrevious().getpiece());
+					if (getPrevious().ischeck())
+						getPrevious().removecheck();
+					getPrevious().removePiece();
+					if(getKing(getChance() ^1).isindanger(getBoardState()))
 					{
-						boardState[getKing(chance^1).getx()][getKing(chance^1).gety()].setcheck();
-						if (checkmate(getKing(chance^1).getcolor()))
+						getBoardState()[getKing(getChance() ^1).getx()][getKing(getChance() ^1).gety()].setcheck();
+						if (checkmate(getKing(getChance() ^1).getcolor()))
 						{
-							previous.deselect();
-							if(previous.getpiece()!=null)
-								previous.removePiece();
+							getPrevious().deselect();
+							if(getPrevious().getpiece()!=null)
+								getPrevious().removePiece();
 							gameend();
 						}
 					}
-					if(!getKing(chance).isindanger(boardState))
-						boardState[getKing(chance).getx()][getKing(chance).gety()].removecheck();
-					if(c.getpiece() instanceof King)
+					if(!getKing(getChance()).isindanger(getBoardState()))
+						getBoardState()[getKing(getChance()).getx()][getKing(getChance()).gety()].removecheck();
+					if(getC().getpiece() instanceof King)
 					{
 						setKingPieceCoordinates();
 					}
 					changechance();
-					if(!end)
+					if(!isEnd())
 					{
-						timer.reset();
-						timer.start();
+						getTimer().reset();
+						getTimer().start();
 					}
 				}
-				if(previous!=null)
+				if(getPrevious() !=null)
 				{
-					previous.deselect();
-					previous=null;
+					getPrevious().deselect();
+					setPrevious(null);
 				}
-				cleandestinations(destinationlist);
-				destinationlist.clear();
+				cleandestinations(getDestinationlist());
+				getDestinationlist().clear();
 			}
 			
-				else if(previous.getpiece().getcolor()==c.getpiece().getcolor())
+				else if(getPrevious().getpiece().getcolor()== getC().getpiece().getcolor())
 				{
-					previous.deselect();
-					cleandestinations(destinationlist);
+					getPrevious().deselect();
+					cleandestinations(getDestinationlist());
 					initializeClick();
 				}
 
 			
 		}
-		if(c.getpiece()!=null && c.getpiece() instanceof King)
+		if(getC().getpiece()!=null && getC().getpiece() instanceof King)
 		{
 			setKingPieceCoordinates();
 		}

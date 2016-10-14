@@ -36,205 +36,442 @@ import pieces.Piece;
 public class Display {
 	
 
-	public static JPanel board;
-	public static JPanel wdetails;
-	public static JPanel bdetails;
-	public static JPanel wcombopanel;
-	public static JPanel bcombopanel;
-	public static JPanel controlPanel,WhitePlayer,BlackPlayer,temp,displayTime,showPlayer,time;
-	public static JSplitPane split;
-	public static JLabel label,mov;
-	public static JLabel CHNC; //// stattic already
-	public static Container content;
-	public static JComboBox<String> wcombo,bcombo;
-	public static JScrollPane wscroll,bscroll;
-	public static JSlider timeSlider;
-	public static BufferedImage image;
-	public static Button start,wselect,bselect,WNewPlayer,BNewPlayer;
+	private static JPanel board;
+	private static JPanel wdetails;
+	private static JPanel bdetails;
+	private static JPanel wcombopanel;
+	private static JPanel bcombopanel;
+	private static JPanel controlPanel;
+	private static JPanel WhitePlayer;
+	private static JPanel BlackPlayer;
+	private static JPanel temp;
+	private static JPanel displayTime;
+	private static JPanel showPlayer;
+	private static JPanel time;
+	private static JSplitPane split;
+	private static JLabel label;
+	private static JLabel mov;
+	private static JLabel CHNC; //// stattic already
+	private static Container content;
+	private static JComboBox<String> wcombo;
+	private static JComboBox<String> bcombo;
+	private static JScrollPane wscroll;
+	private static JScrollPane bscroll;
+	private static JSlider timeSlider;
+	private static BufferedImage image;
+	private static Button start;
+	private static Button wselect;
+	private static Button bselect;
+	private static Button WNewPlayer;
+	private static Button BNewPlayer;
 	
 	
 	public Display(){
 		
-		board=new JPanel(new GridLayout(8,8));
-		board.setMinimumSize(new Dimension(800,700));
-		wdetails=new JPanel(new GridLayout(3,3));
-		bdetails=new JPanel(new GridLayout(3,3));
-		wcombopanel=new JPanel();
-		bcombopanel=new JPanel();
-		timeSlider = new JSlider();
-		board=new JPanel(new GridLayout(8,8));
-		wdetails=new JPanel(new GridLayout(3,3));
-		bdetails=new JPanel(new GridLayout(3,3));
-		bcombopanel=new JPanel();
-		wcombopanel=new JPanel();
+		setBoard(new JPanel(new GridLayout(8,8)));
+		getBoard().setMinimumSize(new Dimension(800,700));
+		setWdetails(new JPanel(new GridLayout(3,3)));
+		setBdetails(new JPanel(new GridLayout(3,3)));
+		setWcombopanel(new JPanel());
+		setBcombopanel(new JPanel());
+		setTimeSlider(new JSlider());
+		setBoard(new JPanel(new GridLayout(8,8)));
+		setWdetails(new JPanel(new GridLayout(3,3)));
+		setBdetails(new JPanel(new GridLayout(3,3)));
+		setBcombopanel(new JPanel());
+		setWcombopanel(new JPanel());
 		
-		board.setBorder(BorderFactory.createLoweredBevelBorder());
-		controlPanel=new JPanel();
-		controlPanel.setLayout(new GridLayout(3,3));
-		controlPanel.setBorder(BorderFactory.createTitledBorder(null, "Statistics", TitledBorder.TOP,TitledBorder.CENTER, new Font("Lucida Calligraphy",Font.PLAIN,20), Color.ORANGE));
+		getBoard().setBorder(BorderFactory.createLoweredBevelBorder());
+		setControlPanel(new JPanel());
+		getControlPanel().setLayout(new GridLayout(3,3));
+		getControlPanel().setBorder(BorderFactory.createTitledBorder(null, "Statistics", TitledBorder.TOP,TitledBorder.CENTER, new Font("Lucida Calligraphy",Font.PLAIN,20), Color.ORANGE));
 	
 		
 	}
-	
+
+	public static JPanel getBoard() {
+		return board;
+	}
+
+	public static void setBoard(JPanel board) {
+		Display.board = board;
+	}
+
+	public static JPanel getWdetails() {
+		return wdetails;
+	}
+
+	public static void setWdetails(JPanel wdetails) {
+		Display.wdetails = wdetails;
+	}
+
+	public static JPanel getBdetails() {
+		return bdetails;
+	}
+
+	public static void setBdetails(JPanel bdetails) {
+		Display.bdetails = bdetails;
+	}
+
+	public static JPanel getWcombopanel() {
+		return wcombopanel;
+	}
+
+	public static void setWcombopanel(JPanel wcombopanel) {
+		Display.wcombopanel = wcombopanel;
+	}
+
+	public static JPanel getBcombopanel() {
+		return bcombopanel;
+	}
+
+	public static void setBcombopanel(JPanel bcombopanel) {
+		Display.bcombopanel = bcombopanel;
+	}
+
+	public static JPanel getControlPanel() {
+		return controlPanel;
+	}
+
+	public static void setControlPanel(JPanel controlPanel) {
+		Display.controlPanel = controlPanel;
+	}
+
+	public static JPanel getWhitePlayer() {
+		return WhitePlayer;
+	}
+
+	public static void setWhitePlayer(JPanel whitePlayer) {
+		WhitePlayer = whitePlayer;
+	}
+
+	public static JPanel getBlackPlayer() {
+		return BlackPlayer;
+	}
+
+	public static void setBlackPlayer(JPanel blackPlayer) {
+		BlackPlayer = blackPlayer;
+	}
+
+	public static JPanel getTemp() {
+		return temp;
+	}
+
+	public static void setTemp(JPanel temp) {
+		Display.temp = temp;
+	}
+
+	public static JPanel getDisplayTime() {
+		return displayTime;
+	}
+
+	public static void setDisplayTime(JPanel displayTime) {
+		Display.displayTime = displayTime;
+	}
+
+	public static JPanel getShowPlayer() {
+		return showPlayer;
+	}
+
+	public static void setShowPlayer(JPanel showPlayer) {
+		Display.showPlayer = showPlayer;
+	}
+
+	public static JPanel getTime() {
+		return time;
+	}
+
+	public static void setTime(JPanel time) {
+		Display.time = time;
+	}
+
+	public static JSplitPane getSplit() {
+		return split;
+	}
+
+	public static void setSplit(JSplitPane split) {
+		Display.split = split;
+	}
+
+	public static JLabel getLabel() {
+		return label;
+	}
+
+	public static void setLabel(JLabel label) {
+		Display.label = label;
+	}
+
+	public static JLabel getMov() {
+		return mov;
+	}
+
+	public static void setMov(JLabel mov) {
+		Display.mov = mov;
+	}
+
+	public static JLabel getCHNC() {
+		return CHNC;
+	}
+
+	public static void setCHNC(JLabel CHNC) {
+		Display.CHNC = CHNC;
+	}
+
+	public static Container getContent() {
+		return content;
+	}
+
+	public static void setContent(Container content) {
+		Display.content = content;
+	}
+
+	public static JComboBox<String> getWcombo() {
+		return wcombo;
+	}
+
+	public static void setWcombo(JComboBox<String> wcombo) {
+		Display.wcombo = wcombo;
+	}
+
+	public static JComboBox<String> getBcombo() {
+		return bcombo;
+	}
+
+	public static void setBcombo(JComboBox<String> bcombo) {
+		Display.bcombo = bcombo;
+	}
+
+	public static JScrollPane getWscroll() {
+		return wscroll;
+	}
+
+	public static void setWscroll(JScrollPane wscroll) {
+		Display.wscroll = wscroll;
+	}
+
+	public static JScrollPane getBscroll() {
+		return bscroll;
+	}
+
+	public static void setBscroll(JScrollPane bscroll) {
+		Display.bscroll = bscroll;
+	}
+
+	public static JSlider getTimeSlider() {
+		return timeSlider;
+	}
+
+	public static void setTimeSlider(JSlider timeSlider) {
+		Display.timeSlider = timeSlider;
+	}
+
+	public static BufferedImage getImage() {
+		return image;
+	}
+
+	public static void setImage(BufferedImage image) {
+		Display.image = image;
+	}
+
+	public static Button getStart() {
+		return start;
+	}
+
+	public static void setStart(Button start) {
+		Display.start = start;
+	}
+
+	public static Button getWselect() {
+		return wselect;
+	}
+
+	public static void setWselect(Button wselect) {
+		Display.wselect = wselect;
+	}
+
+	public static Button getBselect() {
+		return bselect;
+	}
+
+	public static void setBselect(Button bselect) {
+		Display.bselect = bselect;
+	}
+
+	public static Button getWNewPlayer() {
+		return WNewPlayer;
+	}
+
+	public static void setWNewPlayer(Button WNewPlayer) {
+		Display.WNewPlayer = WNewPlayer;
+	}
+
+	public static Button getBNewPlayer() {
+		return BNewPlayer;
+	}
+
+	public static void setBNewPlayer(Button BNewPlayer) {
+		Display.BNewPlayer = BNewPlayer;
+	}
+
 	public void cellsInit(MouseListener main)
 	{
 		Cell cell;
 		Piece P;
-		Main.boardState=new Cell[8][8];
+		Main.setBoardState(new Cell[8][8]);
 		for(int i=0;i<8;i++)
 			for(int j=0;j<8;j++)
 			{	
 
-				P=Main.pieces.getAppropriatePiece(i,j);
+				P= Main.getPieces().getAppropriatePiece(i,j);
 				cell=new Cell(i,j,P);
 				cell.addMouseListener(main);
-				Display.board.add(cell);
-				Main.boardState[i][j]=cell;
+				Display.getBoard().add(cell);
+				Main.getBoardState()[i][j]=cell;
 			}
 	}
 	
 	public void setContent(JFrame main)
 	{
-		Display.content=main.getContentPane();
-		Display.content.setBackground(Color.black);
-		Display.content.setLayout(new BorderLayout());
+		Display.setContent(main.getContentPane());
+		Display.getContent().setBackground(Color.black);
+		Display.getContent().setLayout(new BorderLayout());
 	}
 	
 	public void setLeftLayout(){
-		Display.temp=new JPanel(){
+		Display.setTemp(new JPanel(){
 			private static final long serialVersionUID = 1L;
-			     
+
 			@Override
 		    public void paintComponent(Graphics g) {
 				  try {
-			          Display.image = ImageIO.read(this.getClass().getResource("clash.jpg"));
+			          Display.setImage(ImageIO.read(this.getClass().getResource("clash.jpg")));
 			       } catch (IOException ex) {
 			            System.out.println("not found");
 			       }
-			   
-				g.drawImage(Display.image, 0, 0, null);
-			}         
-	    };
 
-		Display.temp.setMinimumSize(new Dimension(800,700));
-		Display.controlPanel.setMinimumSize(new Dimension(285,700));
-		Display.split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,Display.temp, Display.controlPanel);
+				g.drawImage(Display.getImage(), 0, 0, null);
+			}
+	    });
+
+		Display.getTemp().setMinimumSize(new Dimension(800,700));
+		Display.getControlPanel().setMinimumSize(new Dimension(285,700));
+		Display.setSplit(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, Display.getTemp(), Display.getControlPanel()));
 		
-	    Display.content.add(Display.split);
+	    Display.getContent().add(Display.getSplit());
 
 	}
 	
 	public void endDisplay(String winner){
-		JOptionPane.showMessageDialog(Display.board,"Checkmate!!!\n"+winner+" wins");
-		WhitePlayer.remove(wdetails);
-		BlackPlayer.remove(bdetails);
-		displayTime.remove(label);
+		JOptionPane.showMessageDialog(Display.getBoard(),"Checkmate!!!\n"+winner+" wins");
+		getWhitePlayer().remove(getWdetails());
+		getBlackPlayer().remove(getBdetails());
+		getDisplayTime().remove(getLabel());
 		
-		displayTime.add(start);
-		showPlayer.remove(mov);
-		showPlayer.remove(CHNC);
-		showPlayer.revalidate();
-		showPlayer.add(timeSlider);
+		getDisplayTime().add(getStart());
+		getShowPlayer().remove(getMov());
+		getShowPlayer().remove(getCHNC());
+		getShowPlayer().revalidate();
+		getShowPlayer().add(getTimeSlider());
 		
-		split.remove(board);
-		split.add(temp);
-		WNewPlayer.enable();
-		BNewPlayer.enable();
-		wselect.enable();
-		bselect.enable();
+		getSplit().remove(getBoard());
+		getSplit().add(getTemp());
+		getWNewPlayer().enable();
+		getBNewPlayer().enable();
+		getWselect().enable();
+		getBselect().enable();
 
 	}
 	
 	public void disabledTime(){
-		displayTime.disable();
+		getDisplayTime().disable();
 	}
 	public void changeTurn( String move){
-		CHNC.setText(move);
-		showPlayer.add(CHNC);
+		getCHNC().setText(move);
+		getShowPlayer().add(getCHNC());
 	}
 	
 	public void removePlayer(){
-		showPlayer.remove(CHNC);
+		getShowPlayer().remove(getCHNC());
 	}
 	
 	public void playerDisplayInit(){
-		Display.showPlayer=new JPanel(new FlowLayout());  
-		Display.showPlayer.add(Display.timeSlider);
+		Display.setShowPlayer(new JPanel(new FlowLayout()));
+		Display.getShowPlayer().add(Display.getTimeSlider());
 		JLabel setTime=new JLabel("Set Timer(in mins):"); 
-		Display.start=new Button("Start");
-		Display.start.setBackground(Color.black);
-		Display.start.setForeground(Color.white);
-	    Display.start.addActionListener(new START());
-		Display.start.setPreferredSize(new Dimension(120,40));
+		Display.setStart(new Button("Start"));
+		Display.getStart().setBackground(Color.black);
+		Display.getStart().setForeground(Color.white);
+	    Display.getStart().addActionListener(new START());
+		Display.getStart().setPreferredSize(new Dimension(120,40));
 		setTime.setFont(new Font("Arial",Font.BOLD,16));
-		Display.label = new JLabel("Time Starts now", JLabel.CENTER);
-		Display.label.setFont(new Font("SERIF", Font.BOLD, 30));
-	    Display.displayTime=new JPanel(new FlowLayout());
-	    Display.time=new JPanel(new GridLayout(3,3));
-	    Display.time.add(setTime);
-	    Display.time.add(Display.showPlayer);
-	    Display.displayTime.add(Display.start);
-	    Display.time.add(Display.displayTime);
-	    Display.controlPanel.add(Display.time);
-		Display.board.setMinimumSize(new Dimension(800,700));
+		Display.setLabel(new JLabel("Time Starts now", JLabel.CENTER));
+		Display.getLabel().setFont(new Font("SERIF", Font.BOLD, 30));
+	    Display.setDisplayTime(new JPanel(new FlowLayout()));
+	    Display.setTime(new JPanel(new GridLayout(3,3)));
+	    Display.getTime().add(setTime);
+	    Display.getTime().add(Display.getShowPlayer());
+	    Display.getDisplayTime().add(Display.getStart());
+	    Display.getTime().add(Display.getDisplayTime());
+	    Display.getControlPanel().add(Display.getTime());
+		Display.getBoard().setMinimumSize(new Dimension(800,700));
 	
 	}
     public void timeSliderInit(){
-		timeSlider.setMinimum(1);
-		timeSlider.setMaximum(15);
-		timeSlider.setValue(1);
-		timeSlider.setMajorTickSpacing(2);
-		timeSlider.setPaintLabels(true);
-		timeSlider.setPaintTicks(true);
-		timeSlider.addChangeListener( new TimeChange());
+		getTimeSlider().setMinimum(1);
+		getTimeSlider().setMaximum(15);
+		getTimeSlider().setValue(1);
+		getTimeSlider().setMajorTickSpacing(2);
+		getTimeSlider().setPaintLabels(true);
+		getTimeSlider().setPaintTicks(true);
+		getTimeSlider().addChangeListener( new TimeChange());
 		
 	}
 
 
 public void playerBoxInit (){
 	
-	WhitePlayer=new JPanel();
-	WhitePlayer.setBorder(BorderFactory.createTitledBorder(null, "White Player", TitledBorder.TOP,TitledBorder.CENTER, new Font("times new roman",Font.BOLD,18), Color.RED));
-	WhitePlayer.setLayout(new BorderLayout());
+	setWhitePlayer(new JPanel());
+	getWhitePlayer().setBorder(BorderFactory.createTitledBorder(null, "White Player", TitledBorder.TOP,TitledBorder.CENTER, new Font("times new roman",Font.BOLD,18), Color.RED));
+	getWhitePlayer().setLayout(new BorderLayout());
 	
-	BlackPlayer=new JPanel();
-	BlackPlayer.setBorder(BorderFactory.createTitledBorder(null, "Black Player", TitledBorder.TOP,TitledBorder.CENTER, new Font("times new roman",Font.BOLD,18), Color.BLUE));
-    BlackPlayer.setLayout(new BorderLayout());
+	setBlackPlayer(new JPanel());
+	getBlackPlayer().setBorder(BorderFactory.createTitledBorder(null, "Black Player", TitledBorder.TOP,TitledBorder.CENTER, new Font("times new roman",Font.BOLD,18), Color.BLUE));
+    getBlackPlayer().setLayout(new BorderLayout());
 	
     JPanel whitestats=new JPanel(new GridLayout(3,3));
 	JPanel blackstats=new JPanel(new GridLayout(3,3));
-	wcombo=new JComboBox<String>(Main.WNames);
-	bcombo=new JComboBox<String>(Main.BNames);
-	wscroll=new JScrollPane(wcombo);
-	bscroll=new JScrollPane(bcombo);
-	wcombopanel.setLayout(new FlowLayout());
-	bcombopanel.setLayout(new FlowLayout());
-	wselect=new Button("Select");
-	bselect=new Button("Select");
-	wselect.addActionListener(new SelectHandler(0));
-	bselect.addActionListener(new SelectHandler(1));
-	WNewPlayer=new Button("New Player");
-	BNewPlayer=new Button("New Player");
-	WNewPlayer.addActionListener(new Handler(0));
-	BNewPlayer.addActionListener(new Handler(1));
-	wcombopanel.add(wscroll);
-	wcombopanel.add(wselect);
-	wcombopanel.add(WNewPlayer);
-	bcombopanel.add(bscroll);
-	bcombopanel.add(bselect);
-	bcombopanel.add(BNewPlayer);
-	WhitePlayer.add(wcombopanel,BorderLayout.NORTH);
-	BlackPlayer.add(bcombopanel,BorderLayout.NORTH);
+	setWcombo(new JComboBox<String>(Main.getWNames()));
+	setBcombo(new JComboBox<String>(Main.getBNames()));
+	setWscroll(new JScrollPane(getWcombo()));
+	setBscroll(new JScrollPane(getBcombo()));
+	getWcombopanel().setLayout(new FlowLayout());
+	getBcombopanel().setLayout(new FlowLayout());
+	setWselect(new Button("Select"));
+	setBselect(new Button("Select"));
+	getWselect().addActionListener(new SelectHandler(0));
+	getBselect().addActionListener(new SelectHandler(1));
+	setWNewPlayer(new Button("New Player"));
+	setBNewPlayer(new Button("New Player"));
+	getWNewPlayer().addActionListener(new Handler(0));
+	getBNewPlayer().addActionListener(new Handler(1));
+	getWcombopanel().add(getWscroll());
+	getWcombopanel().add(getWselect());
+	getWcombopanel().add(getWNewPlayer());
+	getBcombopanel().add(getBscroll());
+	getBcombopanel().add(getBselect());
+	getBcombopanel().add(getBNewPlayer());
+	getWhitePlayer().add(getWcombopanel(),BorderLayout.NORTH);
+	getBlackPlayer().add(getBcombopanel(),BorderLayout.NORTH);
 	whitestats.add(new JLabel("Name   :"));
 	whitestats.add(new JLabel("Played :"));
 	whitestats.add(new JLabel("Won    :"));
 	blackstats.add(new JLabel("Name   :"));
 	blackstats.add(new JLabel("Played :"));
 	blackstats.add(new JLabel("Won    :"));
-	WhitePlayer.add(whitestats,BorderLayout.WEST);
-	BlackPlayer.add(blackstats,BorderLayout.WEST);
-	controlPanel.add(WhitePlayer);
-	controlPanel.add(BlackPlayer);
+	getWhitePlayer().add(whitestats,BorderLayout.WEST);
+	getBlackPlayer().add(blackstats,BorderLayout.WEST);
+	getControlPanel().add(getWhitePlayer());
+	getControlPanel().add(getBlackPlayer());
 
 }
 
@@ -243,7 +480,7 @@ class TimeChange implements ChangeListener
 	@Override
 	public void stateChanged(ChangeEvent arg0)
 	{
-		Main.timeRemaining=timeSlider.getValue()*60;
+		Main.setTimeRemaining(getTimeSlider().getValue()*60);
 	}
 }
 
@@ -259,18 +496,18 @@ class SelectHandler implements ActionListener
 		public void actionPerformed(ActionEvent arg0)
 		{
 			// TODO Auto-generated method stub
-			Main.tempPlayer=null;
-			String n=(color==0)?Main.wname:Main.bname;
-			JComboBox<String> jc=(color==0)?wcombo:bcombo;
-			JComboBox<String> ojc=(color==0)?bcombo:wcombo;
-			ArrayList<Player> pl=(color==0)?Main.wplayer:Main.bplayer;
+			Main.setTempPlayer(null);
+			String n=(color==0)? Main.getWname() : Main.getBname();
+			JComboBox<String> jc=(color==0)? getWcombo() : getBcombo();
+			JComboBox<String> ojc=(color==0)? getBcombo() : getWcombo();
+			ArrayList<Player> pl=(color==0)? Main.getWplayer() : Main.getBplayer();
 			//ArrayList<Player> otherPlayer=(color==0)?bplayer:wplayer;
 			ArrayList<Player> opl=Player.fetch_players();
 			if(opl.isEmpty())
 				return;
-			JPanel det=(color==0)?Display.wdetails:Display.bdetails;
-			JPanel PL=(color==0)?Display.WhitePlayer:Display.BlackPlayer; 
-			if(Main.selected)
+			JPanel det=(color==0)? Display.getWdetails() : Display.getBdetails();
+			JPanel PL=(color==0)? Display.getWhitePlayer() : Display.getBlackPlayer();
+			if(Main.isSelected())
 				det.removeAll();
 			n=(String)jc.getSelectedItem();
 			Iterator<Player> it=pl.iterator();
@@ -279,7 +516,8 @@ class SelectHandler implements ActionListener
 			{	
 				Player p=it.next();
 				if(p.name().equals(n))
-					{Main.tempPlayer=p;
+					{
+						Main.setTempPlayer(p);
 					break;}
 			}
 			while(oit.hasNext())
@@ -290,24 +528,24 @@ class SelectHandler implements ActionListener
 					break;}
 			}
 			
-			if(Main.tempPlayer==null)
+			if(Main.getTempPlayer() ==null)
 				return;
 			if(color==0)
-				Main.White=Main.tempPlayer;
+				Main.setWhite(Main.getTempPlayer());
 			else
-				Main.Black=Main.tempPlayer;
-			Main.bplayer=opl;
+				Main.setBlack(Main.getTempPlayer());
+			Main.setBplayer(opl);
 			ojc.removeAllItems();
 			for (Player s:opl)
 				ojc.addItem(s.name());
-			det.add(new JLabel(" "+Main.tempPlayer.name()));
-			det.add(new JLabel(" "+Main.tempPlayer.gamesplayed()));
-			det.add(new JLabel(" "+Main.tempPlayer.gameswon()));
+			det.add(new JLabel(" "+ Main.getTempPlayer().name()));
+			det.add(new JLabel(" "+ Main.getTempPlayer().gamesplayed()));
+			det.add(new JLabel(" "+ Main.getTempPlayer().gameswon()));
 			
 			PL.revalidate();
 			PL.repaint();
 			PL.add(det);
-			Main.selected=true;
+			Main.setSelected(true);
 		}
 		
 	}
@@ -323,11 +561,11 @@ class Handler implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		String n=(color==0)?Main.wname:Main.bname;
-		JPanel j=(color==0)?Display.WhitePlayer:Display.BlackPlayer;
+		String n=(color==0)? Main.getWname() : Main.getBname();
+		JPanel j=(color==0)? Display.getWhitePlayer() : Display.getBlackPlayer();
 		ArrayList<Player> N=Player.fetch_players();
 		Iterator<Player> it=N.iterator();
-		JPanel det=(color==0)?Display.wdetails:Display.bdetails;
+		JPanel det=(color==0)? Display.getWdetails() : Display.getBdetails();
 		n=JOptionPane.showInputDialog(j,"Enter your name");
 			
 			if(n!=null)
@@ -344,9 +582,9 @@ class Handler implements ActionListener{
 				{Player tem= Player.createPlayer(n);
 				tem.Update_Player();
 				if(color==0)
-					Main.White=tem;
+					Main.setWhite(tem);
 				else
-					Main.Black=tem;
+					Main.setBlack(tem);
 				}
 				else return;
 			}
@@ -359,7 +597,7 @@ class Handler implements ActionListener{
 		j.revalidate();
 		j.repaint();
 		j.add(det);
-		Main.selected=true;
+		Main.setSelected(true);
 	}
 	}
 
@@ -371,32 +609,32 @@ class START implements ActionListener
 public void actionPerformed(ActionEvent arg0) {
 	// TODO Auto-generated method stub
 	
-	if(Main.White==null||Main.Black==null)
-		{JOptionPane.showMessageDialog(Display.controlPanel, "Fill in the details");
+	if(Main.getWhite() ==null|| Main.getBlack() ==null)
+		{JOptionPane.showMessageDialog(Display.getControlPanel(), "Fill in the details");
 		return;}
-	Main.White.updateGamesPlayed();
-	Main.White.Update_Player();
-	Main.Black.updateGamesPlayed();
-	Main.Black.Update_Player();
-	Display.WNewPlayer.disable();
-	Display.BNewPlayer.disable();
-	Display.wselect.disable();
-	Display.bselect.disable();
-	Display.split.remove(Display.temp);
-	Display.split.add(Display.board);
-	Display.showPlayer.remove(Display.timeSlider);
-	Display.mov=new JLabel("Move:");
-	Display.mov.setFont(new Font("Comic Sans MS",Font.PLAIN,20));
-	Display.mov.setForeground(Color.red);
-	Display.showPlayer.add(Display.mov);
-	Display.CHNC=new JLabel(Main.move);
-	Display.CHNC.setFont(new Font("Comic Sans MS",Font.BOLD,20));
-	Display.CHNC.setForeground(Color.blue);
-	Display.showPlayer.add(Display.CHNC);
-	Display.displayTime.remove(Display.start);
-	Display.displayTime.add(Display.label);
-	Main.timer=new Time(Display.label);
-	Main.timer.start();
+	Main.getWhite().updateGamesPlayed();
+	Main.getWhite().Update_Player();
+	Main.getBlack().updateGamesPlayed();
+	Main.getBlack().Update_Player();
+	Display.getWNewPlayer().disable();
+	Display.getBNewPlayer().disable();
+	Display.getWselect().disable();
+	Display.getBselect().disable();
+	Display.getSplit().remove(Display.getTemp());
+	Display.getSplit().add(Display.getBoard());
+	Display.getShowPlayer().remove(Display.getTimeSlider());
+	Display.setMov(new JLabel("Move:"));
+	Display.getMov().setFont(new Font("Comic Sans MS",Font.PLAIN,20));
+	Display.getMov().setForeground(Color.red);
+	Display.getShowPlayer().add(Display.getMov());
+	Display.setCHNC(new JLabel(Main.getMove()));
+	Display.getCHNC().setFont(new Font("Comic Sans MS",Font.BOLD,20));
+	Display.getCHNC().setForeground(Color.blue);
+	Display.getShowPlayer().add(Display.getCHNC());
+	Display.getDisplayTime().remove(Display.getStart());
+	Display.getDisplayTime().add(Display.getLabel());
+	Main.setTimer(new Time(Display.getLabel()));
+	Main.getTimer().start();
 }
 }
 

@@ -23,7 +23,7 @@ public class Time
     {
        countdownTimer = new Timer(1000, new CountdownTimerListener());
        this.label = passedLabel;
-       setTimerem(Main.timeRemaining);
+       setTimerem(Main.getTimeRemaining());
     }
   //A function that starts the timer
     public void stop()
@@ -40,7 +40,7 @@ public class Time
     //A function that resets the timer
     public void reset()
     {
-    	setTimerem(Main.timeRemaining);
+    	setTimerem(Main.getTimeRemaining());
     }
 
     public Timer getCountdownTimer() {
@@ -55,6 +55,10 @@ public class Time
         Timerem = timerem;
     }
 
+    public JLabel getLabel() {
+        return label;
+    }
+
     //A function that is called after every second. It updates the timer and takes other necessary actions
     private class CountdownTimerListener implements ActionListener
     {
@@ -65,15 +69,15 @@ public class Time
        	 {
            	min= getTimerem() /60;
            	sec= getTimerem() %60;
-            label.setText(String.valueOf(min)+":"+(sec>=10?String.valueOf(sec):"0"+String.valueOf(sec)));
+            getLabel().setText(String.valueOf(min)+":"+(sec>=10?String.valueOf(sec):"0"+String.valueOf(sec)));
             setTimerem(getTimerem() - 1);
          }
        	 else
        	 {
-               label.setText("Time's up!");
+               getLabel().setText("Time's up!");
                reset();
                start();
-               Main.Mainboard.changechance();
+               Main.getMainboard().changechance();
 		 }
     }
  }

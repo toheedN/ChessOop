@@ -31,46 +31,58 @@ public class Player implements Serializable{
 	//Constructor
 	private Player(String name)
 	{
-		this.name = name.trim();
-		gamesplayed = new Integer(0);
-		gameswon = new Integer(0);
-		userfile = new playerfile();
+		this.setName(name.trim());
+		setGamesplayed(new Integer(0));
+		setGameswon(new Integer(0));
+		setUserfile(new playerfile());
 	}
-	
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public static playerfile getUserfile() {
+		return userfile;
+	}
+
+	public static void setUserfile(playerfile userfile) {
+		Player.userfile = userfile;
+	}
+
 	//Name Getter
 	public String name()
 	{
-		return name;
+		return getName();
 	}
 	
 	//Returns the number of games played
 	public Integer gamesplayed()
 	{
-		return gamesplayed;
+		return getGamesplayed();
 	}
 	
 	//Returns the number of games won
 	public Integer gameswon()
 	{
-		return gameswon;
+		return getGameswon();
 	}
 	
 	//Calculates the win percentage of the player
 	public Integer winpercent()
 	{
-		return new Integer((gameswon*100)/gamesplayed);
+		return new Integer((getGameswon() *100)/ getGamesplayed());
 	}
 	
 	//Increments the number of games played
 	public void updateGamesPlayed()
 	{
-		gamesplayed++;
+		setGamesplayed(getGamesplayed() + 1);
 	}
 	
 	//Increments the number of games won
 	public void updateGamesWon()
 	{
-		gameswon++;
+		setGameswon(getGameswon() + 1);
 	}
 	
 	
@@ -136,10 +148,10 @@ public class Player implements Serializable{
 	public void Update_Player()            //Function to update the statistics of a player
 	{
 
-		userfile.set_file_paths();
+		getUserfile().set_file_paths();
 		try
 		{
-			userfile.make_iofile_objects();
+			getUserfile().make_iofile_objects();
 		} catch (SecurityException e)
 		{
 			JOptionPane.showMessageDialog(null, "Read-Write Permission Denied !! Program Cannot Start");
@@ -147,7 +159,7 @@ public class Player implements Serializable{
 		} 
 		try
 		{
-			userfile.file_the_player_data(this);
+			getUserfile().file_the_player_data(this);
 		}
 		catch (FileNotFoundException e)
 		{
@@ -164,6 +176,31 @@ public class Player implements Serializable{
 			JOptionPane.showMessageDialog(null, "Game Data File Corrupted !! Click Ok to Continue Builing New File");
 		}
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getGamesplayed() {
+		return gamesplayed;
+	}
+
+	public void setGamesplayed(Integer gamesplayed) {
+		this.gamesplayed = gamesplayed;
+	}
+
+	public Integer getGameswon() {
+		return gameswon;
+	}
+
+	public void setGameswon(Integer gameswon) {
+		this.gameswon = gameswon;
+	}
+
 	public class playerfile {
 		private String input_file_name;
 		private String output_file_name;

@@ -6,7 +6,8 @@ import chess.Cell;
 
 public class King extends Piece{
 
-	private int x,y; //Extra variables for King class to keep a track of king's position
+	private int x;
+	private int y; //Extra variables for King class to keep a track of king's position
 
 	//King Constructor
 	public King(String i,String p,int c,int x,int y)
@@ -21,32 +22,32 @@ public class King extends Piece{
 	//general value access functions
 	public void setx(int x)
 	{
-		this.x=x;
+		this.setX(x);
 	}
 	public void sety(int y)
 	{
-		this.y=y;
+		this.setY(y);
 	}
 	public int getx()
 	{
-		return x;
+		return getX();
 	}
 	public int gety()
 	{
-		return y;
+		return getY();
 	}
 	//Move Function for King Overridden from Pieces
 	public ArrayList<Cell> move(Cell state[][],int x,int y)
 	{
 		//King can move only one step. So all the adjacent 8 cells have been considered.
-		possiblemoves.clear();
+		getPossiblemoves().clear();
 		int posx[]={x,x,x+1,x+1,x+1,x-1,x-1,x-1};
 		int posy[]={y-1,y+1,y-1,y,y+1,y-1,y,y+1};
-		for(int i=0;i<MAX_CORD;i++)
-			if((posx[i]>=MIN_CORD&&posx[i]<MAX_CORD&&posy[i]>=MIN_CORD&&posy[i]<MAX_CORD))
+		for(int i = 0; i< getMaxCord(); i++)
+			if((posx[i]>= getMinCord() &&posx[i]< getMaxCord() &&posy[i]>= getMinCord() &&posy[i]< getMaxCord()))
 				if((state[posx[i]][posy[i]].getpiece()==null||state[posx[i]][posy[i]].getpiece().getcolor()!=this.getcolor()))
-					possiblemoves.add(state[posx[i]][posy[i]]);
-		return possiblemoves;
+					getPossiblemoves().add(state[posx[i]][posy[i]]);
+		return getPossiblemoves();
 	}
 
 
@@ -59,7 +60,7 @@ public class King extends Piece{
 
 		if(attackedHorizontally(state)
 				|| attackedVertically(state)
-				|| attackedDiagonally(state,x,y))
+				|| attackedDiagonally(state, getX(), getY()))
 		{
 			return true;
 		}
@@ -75,8 +76,8 @@ public class King extends Piece{
 	}
 
 	private boolean attackedbyPawn(Cell[][] state) {
-		int pox[]={x+1,x+1,x+1,x,x,x-1,x-1,x-1};
-		int poy[]={y-1,y+1,y,y+1,y-1,y+1,y-1,y};
+		int pox[]={getX() +1, getX() +1, getX() +1, getX(), getX(), getX() -1, getX() -1, getX() -1};
+		int poy[]={getY() -1, getY() +1, getY(), getY() +1, getY() -1, getY() +1, getY() -1, getY()};
 		{
 			for(int i=0;i<8;i++)
 				if((pox[i]>=0&&pox[i]<8&&poy[i]>=0&&poy[i]<8))
@@ -97,19 +98,19 @@ public class King extends Piece{
 	}
 
 	private boolean performValidationOnBlack(Cell[][] state) {
-		if((validateCoordsAndPiece(state,(x+1),(y-1))
-				&& validatePieceTypeandColor(state,0,(x+1),(y-1))
-				|| (validateCoordsAndPiece(state,(x+1),(y+1))
-						&& validatePieceTypeandColor(state,0,(x+1),(y+1)))))
+		if((validateCoordsAndPiece(state,(getX() +1),(getY() -1))
+				&& validatePieceTypeandColor(state,0,(getX() +1),(getY() -1))
+				|| (validateCoordsAndPiece(state,(getX() +1),(getY() +1))
+						&& validatePieceTypeandColor(state,0,(getX() +1),(getY() +1)))))
 					{return true;}
 		return false;
 	}
 
 	private boolean performValidationOnWhite(Cell[][] state) {
-		if((validateCoordsAndPiece(state,(x-1),(y-1))
-				&& validatePieceTypeandColor(state,1,(x-1),(y-1))) 
-				||( validateCoordsAndPiece(state,(x-1),(y+1))
-				&& validatePieceTypeandColor(state,1,(x-1),(y+1))))
+		if((validateCoordsAndPiece(state,(getX() -1),(getY() -1))
+				&& validatePieceTypeandColor(state,1,(getX() -1),(getY() -1)))
+				||( validateCoordsAndPiece(state,(getX() -1),(getY() +1))
+				&& validatePieceTypeandColor(state,1,(getX() -1),(getY() +1))))
 		{
 			return true;
 		}
@@ -134,12 +135,12 @@ public class King extends Piece{
 	}
 
 	private boolean validateCoords() {
-		return x>0 && y>0;
+		return getX() >0 && getY() >0;
 	}
 
 	private boolean attackedbyKnight(Cell[][] state) {
-		int posx[]={x+1,x+1,x+2,x+2,x-1,x-1,x-2,x-2};
-		int posy[]={y-2,y+2,y-1,y+1,y-2,y+2,y-1,y+1};
+		int posx[]={getX() +1, getX() +1, getX() +2, getX() +2, getX() -1, getX() -1, getX() -2, getX() -2};
+		int posy[]={getY() -2, getY() +2, getY() -1, getY() +1, getY() -2, getY() +2, getY() -1, getY() +1};
 		for(int i=0;i<8;i++)
 			if((posx[i]>=0&&posx[i]<8&&posy[i]>=0&&posy[i]<8))
 				if(state[posx[i]][posy[i]].getpiece()!=null && state[posx[i]][posy[i]].getpiece().getcolor()!=this.getcolor() && (state[posx[i]][posy[i]].getpiece() instanceof Knight))
@@ -259,15 +260,15 @@ public class King extends Piece{
 	}
 
 	private boolean attackedFromDown(Cell[][] state) {
-		for(int i=y-1;i>=0;i--)
+		for(int i = getY() -1; i>=0; i--)
 		{
-			if(state[x][i].getpiece()==null)
+			if(state[getX()][i].getpiece()==null)
 				continue;
-			else if(state[x][i].getpiece().getcolor()==this.getcolor())
+			else if(state[getX()][i].getpiece().getcolor()==this.getcolor())
 				break;
 			else
 			{
-				if ((state[x][i].getpiece() instanceof Rook) || (state[x][i].getpiece() instanceof Queen))
+				if ((state[getX()][i].getpiece() instanceof Rook) || (state[getX()][i].getpiece() instanceof Queen))
 					return true;
 				else
 					break;
@@ -277,15 +278,15 @@ public class King extends Piece{
 	}
 
 	private boolean attackedFromUp(Cell[][] state) {
-		for(int i=y+1;i<8;i++)
+		for(int i = getY() +1; i<8; i++)
 		{
-			if(state[x][i].getpiece()==null)
+			if(state[getX()][i].getpiece()==null)
 				continue;
-			else if(state[x][i].getpiece().getcolor()==this.getcolor())
+			else if(state[getX()][i].getpiece().getcolor()==this.getcolor())
 				break;
 			else
 			{
-				if ((state[x][i].getpiece() instanceof Rook) || (state[x][i].getpiece() instanceof Queen))
+				if ((state[getX()][i].getpiece() instanceof Rook) || (state[getX()][i].getpiece() instanceof Queen))
 					return true;
 				else
 					break;
@@ -295,15 +296,15 @@ public class King extends Piece{
 	}
 
 	private boolean attackedFromRight(Cell[][] state) {
-		for(int i=x-1;i>=0;i--)
+		for(int i = getX() -1; i>=0; i--)
 		{
-			if(state[i][y].getpiece()==null)
+			if(state[i][getY()].getpiece()==null)
 				continue;
-			else if(state[i][y].getpiece().getcolor()==this.getcolor())
+			else if(state[i][getY()].getpiece().getcolor()==this.getcolor())
 				break;
 			else
 			{
-				if ((state[i][y].getpiece() instanceof Rook) || (state[i][y].getpiece() instanceof Queen))
+				if ((state[i][getY()].getpiece() instanceof Rook) || (state[i][getY()].getpiece() instanceof Queen))
 					return true;
 				else
 					break;
@@ -313,20 +314,36 @@ public class King extends Piece{
 	}
 
 	private boolean attackedFromLeft(Cell[][] state) {
-		for(int i=x+1;i<8;i++)
+		for(int i = getX() +1; i<8; i++)
 		{
-			if(state[i][y].getpiece()==null)
+			if(state[i][getY()].getpiece()==null)
 				continue;
-			else if(state[i][y].getpiece().getcolor()==this.getcolor())
+			else if(state[i][getY()].getpiece().getcolor()==this.getcolor())
 				break;
 			else
 			{
-				if ((state[i][y].getpiece() instanceof Rook) || (state[i][y].getpiece() instanceof Queen))
+				if ((state[i][getY()].getpiece() instanceof Rook) || (state[i][getY()].getpiece() instanceof Queen))
 					return true;
 				else
 					break;
 			}
 		}
 		return false;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 }
