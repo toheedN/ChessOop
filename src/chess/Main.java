@@ -358,6 +358,7 @@ public class Main extends JFrame implements MouseListener {
         else
             setMove("White");
 
+        sound.movePieceSound();
         getDisplay().changeTurn(getMove());
     }
 
