@@ -358,7 +358,6 @@ public class Main extends JFrame implements MouseListener {
         else
             setMove("White");
 
-        sound.movePieceSound();
         getDisplay().changeTurn(getMove());
     }
 
@@ -569,7 +568,14 @@ public class Main extends JFrame implements MouseListener {
             } else if (getC().getpiece() == null || getPrevious().getpiece().getcolor() != getC().getpiece().getcolor()) {
                 if (getC().ispossibledestination()) {
                     if (getC().getpiece() != null)
+                    {
                         getC().removePiece();
+                    	sound.killPieceSound();
+                    }
+                    else
+                    {
+                    	sound.movePieceSound();
+                    }
                     getC().setPiece(getPrevious().getpiece());
                     if (getPrevious().ischeck())
                         getPrevious().removecheck();
