@@ -75,7 +75,7 @@ public class King extends Piece {
         {
             for (int i = 0; i < 8; i++)
                 if ((pox[i] >= 0 && pox[i] < 8 && poy[i] >= 0 && poy[i] < 8))
-                    if (state[pox[i]][poy[i]].getpiece() != null && state[pox[i]][poy[i]].getpiece().getcolor() != this.getcolor() && (state[pox[i]][poy[i]].getpiece() instanceof King)) {
+                    if (state[pox[i]][poy[i]].getpiece() != null && state[pox[i]][poy[i]].getpiece().getcolor() != this.getcolor() && (state[pox[i]][poy[i]].getpiece() instanceof Pawn)) {
                         return true;
                     }
         }
