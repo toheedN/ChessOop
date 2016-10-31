@@ -491,6 +491,7 @@ public class Main extends JFrame implements MouseListener {
                 }
             }
         }
+        sound.checkMateSound();
         return true;
     }
 
