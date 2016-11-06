@@ -491,7 +491,7 @@ public class Main extends JFrame implements MouseListener {
                 }
             }
         }
-        sound.checkMateSound();
+        sound.playSound("checkmate.wav");
         return true;
     }
 
@@ -571,11 +571,11 @@ public class Main extends JFrame implements MouseListener {
                     if (getC().getpiece() != null)
                     {
                         getC().removePiece();
-                    	sound.killPieceSound();
+                    	sound.playSound("kill_piece.wav");
                     }
                     else
                     {
-                    	sound.movePieceSound();
+                    	sound.playSound("move_piece.wav");
                     }
                     getC().setPiece(getPrevious().getpiece());
                     if (getPrevious().ischeck())
