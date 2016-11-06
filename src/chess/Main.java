@@ -23,7 +23,7 @@ import java.util.ListIterator;
 public class Main extends JFrame implements MouseListener {
     private static final long serialVersionUID = 1L;
     private static final int Height = 700;
-    private static final int Width = 1110;
+    private static final int Width = 1300;
     //Variable Declaration
     private static Pieces pieces;
     private static Display display;

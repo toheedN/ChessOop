@@ -35,7 +35,7 @@ public class Display {
     private static JSplitPane split;
     private static JLabel label;
     private static JLabel mov;
-    private static JLabel CHNC; //// stattic already
+    private static JLabel CHNC; //// static already
     private static Container content;
     private static JComboBox<String> wcombo;
     private static JComboBox<String> bcombo;
@@ -56,8 +56,8 @@ public class Display {
 
     public Display() {
 
-        setBoard(new JPanel(new GridLayout(8, 8)));
-        getBoard().setMinimumSize(new Dimension(800, 700));
+        setBoard(new JPanel(new GridBagLayout()));
+        getBoard().setMinimumSize(new Dimension(900, 700));
         setWdetails(new JPanel(new GridLayout(3, 3)));
         setBdetails(new JPanel(new GridLayout(3, 3)));
         setWcombopanel(new JPanel());
@@ -373,6 +373,7 @@ public class Display {
         Display.setSplit(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, Display.getTemp(), Display.getControlPanel()));
 
         Display.getContent().add(Display.getSplit());
+        Display.getSplit().setEnabled(false);
 
     }
 
@@ -432,12 +433,15 @@ public class Display {
         Display.getControlPanel().add(Display.getTime());
         
         Display.setSaveBox(new JPanel());
-        Display.getSaveBox().setLayout(new FlowLayout(4, 2, 1));
-        Display.getSaveBox().setBorder(BorderFactory.createTitledBorder(null, "Save Game", TitledBorder.TOP, TitledBorder.CENTER, new Font("times new roman", Font.BOLD, 18), Color.GREEN));
+        //Display.getSaveBox().setLayout(new FlowLayout(4, 1, 1));
+        Display.getSaveBox().setBorder(BorderFactory.createTitledBorder(null, "Save Game", TitledBorder.TOP, TitledBorder.CENTER, new Font("times new roman", Font.BOLD, 18), Color.MAGENTA));
         Display.setSaveslot(new JScrollPane(new JComboBox<String> (saveSlots)));
         Display.setSaveGameButton(new Button("Save Game"));
         Display.setLoadGameButton(new Button("Load Game"));
         Display.setDeltGameButton(new Button("Delete Game"));
+        Display.getSaveGameButton().setPreferredSize(new Dimension(80, 25));
+        Display.getLoadGameButton().setPreferredSize(new Dimension(80, 25));
+        Display.getDeltGameButton().setPreferredSize(new Dimension(80, 25));
         
         Display.getSaveBox().add(Display.getSaveslot());
         Display.getSaveBox().add(Display.getSaveGameButton());
@@ -445,6 +449,7 @@ public class Display {
         Display.getSaveBox().add(Display.getDeltGameButton());
         Display.getControlPanel().add(Display.getSaveBox());
         Display.getBoard().setMinimumSize(new Dimension(800, 700));
+        Display.getBoard().setMaximumSize(new Dimension(800, 700));
 
     }
 
@@ -640,7 +645,7 @@ public class Display {
         public void actionPerformed(ActionEvent arg0) {
             // TODO Auto-generated method stub
 
-            if (Main.getWhite() == null || Main.getBlack() == null) {
+            if (Main.getWhite().getName() == "null" || Main.getBlack().getName() == "null") {
                 JOptionPane.showMessageDialog(Display.getControlPanel(), "Fill in the details");
                 return;
             }
