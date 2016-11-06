@@ -14,7 +14,6 @@ import java.util.ListIterator;
  * @author Ashish Kedia and Adarsh Mohata
  */
 
-
 /**
  * This is the Main Class of our project.
  * All GUI Elements are declared, initialized and used in this class itself.
@@ -103,18 +102,26 @@ public class Main extends JFrame implements MouseListener {
 
         //variable initialization
         //	Pieces.variableInitialization();
-        setPieces(new Pieces());
+        setUpBoardAndPieces();
+    }
+
+	public static void setUpBoardAndPieces() {
+		setPieces(new Pieces());
         setDisplay(new Display());
         //Setting up the Display.board
         SettingBoard();
-
-    }
-
+	}
+	
     private static void SettingBoard() {
         setMainboard(new Main());
         getMainboard().setVisible(true);
         getMainboard().setResizable(false);
     }
+    
+	public static Main get_new_main()
+	{
+		return new Main();
+	}
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -349,7 +356,6 @@ public class Main extends JFrame implements MouseListener {
             getTimer().start();
             getDisplay().removePlayer();
             changeTurn();
-
         }
     }
 
@@ -517,9 +523,8 @@ public class Main extends JFrame implements MouseListener {
         setEnd(true);
         getMainboard().disable();
         getMainboard().dispose();
-        setMainboard(new Main());
-        getMainboard().setVisible(true);
-        getMainboard().setResizable(false);
+        setEnd(false);
+        setUpBoardAndPieces();
     }
 
 

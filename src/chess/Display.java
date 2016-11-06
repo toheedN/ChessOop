@@ -30,6 +30,7 @@ public class Display {
     private static JPanel temp;
     private static JPanel displayTime;
     private static JPanel showPlayer;
+    private static JPanel savebox;
     private static JPanel time;
     private static JSplitPane split;
     private static JLabel label;
@@ -47,6 +48,10 @@ public class Display {
     private static Button bselect;
     private static Button WNewPlayer;
     private static Button BNewPlayer;
+    private static Button savegame;
+    private static Button loadgame;
+    private static Button deltgame;
+    private static JScrollPane saveslot;
 
 
     public Display() {
@@ -72,6 +77,15 @@ public class Display {
 
     }
 
+    public static void setSaveBox(JPanel arg)
+    {
+    	Display.savebox = arg;
+    }
+    public static JPanel getSaveBox()
+    {
+    	return Display.savebox;
+    }
+    
     public static JPanel getBoard() {
         return board;
     }
@@ -301,8 +315,29 @@ public class Display {
     public static void setBNewPlayer(Button BNewPlayer) {
         Display.BNewPlayer = BNewPlayer;
     }
+    public static void setSaveGameButton(Button savegame){
+    	Display.savegame = savegame;
+    }
+    public static Button getSaveGameButton(){
+    	return Display.savegame;
+    }
+    
+    public static void setLoadGameButton(Button loadgame){
+    	Display.loadgame = loadgame;
+    }
+    public static Button getLoadGameButton(){
+    	return Display.loadgame;
+    }
 
-    public void cellsInit(MouseListener main) {
+    public static Button getDeltGameButton() {
+		return deltgame;
+	}
+
+	public static void setDeltGameButton(Button deltgame) {
+		Display.deltgame = deltgame;
+	}
+
+	public void cellsInit(MouseListener main) {
         Cell cell;
         Piece P;
         Main.setBoardState(new Cell[8][8]);
@@ -376,6 +411,7 @@ public class Display {
     }
 
     public void playerDisplayInit() {
+    	String[] saveSlots = {"1","2","3","4","5"};
         Display.setShowPlayer(new JPanel(new FlowLayout()));
         Display.getShowPlayer().add(Display.getTimeSlider());
         JLabel setTime = new JLabel("Set Timer(in mins):");
@@ -394,6 +430,20 @@ public class Display {
         Display.getDisplayTime().add(Display.getStart());
         Display.getTime().add(Display.getDisplayTime());
         Display.getControlPanel().add(Display.getTime());
+        
+        Display.setSaveBox(new JPanel());
+        Display.getSaveBox().setLayout(new FlowLayout(4, 2, 1));
+        Display.getSaveBox().setBorder(BorderFactory.createTitledBorder(null, "Save Game", TitledBorder.TOP, TitledBorder.CENTER, new Font("times new roman", Font.BOLD, 18), Color.GREEN));
+        Display.setSaveslot(new JScrollPane(new JComboBox<String> (saveSlots)));
+        Display.setSaveGameButton(new Button("Save Game"));
+        Display.setLoadGameButton(new Button("Load Game"));
+        Display.setDeltGameButton(new Button("Delete Game"));
+        
+        Display.getSaveBox().add(Display.getSaveslot());
+        Display.getSaveBox().add(Display.getSaveGameButton());
+        Display.getSaveBox().add(Display.getLoadGameButton());
+        Display.getSaveBox().add(Display.getDeltGameButton());
+        Display.getControlPanel().add(Display.getSaveBox());
         Display.getBoard().setMinimumSize(new Dimension(800, 700));
 
     }
@@ -457,7 +507,15 @@ public class Display {
 
     }
 
-    class TimeChange implements ChangeListener {
+    public static JScrollPane getSaveslot() {
+		return saveslot;
+	}
+
+	public static void setSaveslot(JScrollPane saveslot) {
+		Display.saveslot = saveslot;
+	}
+
+	class TimeChange implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent arg0) {
             Main.setTimeRemaining(getTimeSlider().getValue() * 60);
@@ -597,6 +655,7 @@ public class Display {
             Display.getSplit().remove(Display.getTemp());
             Display.getSplit().add(Display.getBoard());
             Display.getShowPlayer().remove(Display.getTimeSlider());
+
             Display.setMov(new JLabel("Move:"));
             Display.getMov().setFont(new Font("Comic Sans MS", Font.PLAIN, 20));
             Display.getMov().setForeground(Color.red);
