@@ -335,6 +335,7 @@ public class Main extends JFrame implements MouseListener {
     public void changechance() {
         if (getBoardState()[getKing(getChance()).getx()][getKing(getChance()).gety()].ischeck()) {
             setChance(getChance() ^ 1);
+            sound.playSound("checkmate.wav");
             gameend();
         }
         if (!getDestinationlist().isEmpty())
@@ -491,7 +492,6 @@ public class Main extends JFrame implements MouseListener {
                 }
             }
         }
-        sound.playSound("checkmate.wav");
         return true;
     }
 
@@ -584,6 +584,7 @@ public class Main extends JFrame implements MouseListener {
                     if (getKing(getChance() ^ 1).isindanger(getBoardState())) {
                         getBoardState()[getKing(getChance() ^ 1).getx()][getKing(getChance() ^ 1).gety()].setcheck();
                         if (checkmate(getKing(getChance() ^ 1).getcolor())) {
+                            sound.playSound("checkmate.wav");
                             getPrevious().deselect();
                             if (getPrevious().getpiece() != null)
                                 getPrevious().removePiece();
