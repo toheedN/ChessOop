@@ -46,6 +46,37 @@ public class Pieces {
             getBp()[i] = new Pawn("BP0" + (i + 1), "Black_Pawn.png", 1);
         }
     }
+    
+    
+    public void updatePieces(){
+    	
+    	
+    	
+    	
+        setWr01(new Rook("WR01", "Whiterook.png", 0));
+        setWr02(new Rook("WR02", "Whiterook.png", 0));
+        setBr01(new Rook("BR01", "Blackrook.png", 1));
+        setBr02(new Rook("br02", "Blackrook.png", 1));
+        setWk01(new Knight("WK01", "Whiteknight.png", 0));
+        setWk02(new Knight("WK02", "Whiteknight.png", 0));
+        setBk01(new Knight("BK01", "Blackknight.png", 1));
+        setBk02(new Knight("BK02", "Blackknight.png", 1));
+        setWb01(new Bishop("WB01", "Whitebishop.png", 0));
+        setWb02(new Bishop("WB02", "Whitebishop.png", 0));
+        setBb01(new Bishop("BB01", "Blackbishop.png", 1));
+        setBb02(new Bishop("BB02", "BlackBishop.png", 1));
+        setWq(new Queen("WQ", "Whitequeen.png", 0));
+        setBq(new Queen("BQ", "Blackqueen.png", 1));
+        setWk(new King("WK", "Whiteking.png", 0, 7, 3));
+        setBk(new King("BK", "Blackking.png", 1, 0, 3));
+        setWp(new Pawn[8]);
+        setBp(new Pawn[8]);
+        for (int i = 0; i < 8; i++) {
+            getWp()[i] = new Pawn("WP0" + (i + 1), "Whitepawn.png", 0);
+            getBp()[i] = new Pawn("BP0" + (i + 1), "Blackpawn.png", 1);
+        }
+        
+    }
 
     public Piece getAppropriatePiece(int i, int j) {
 

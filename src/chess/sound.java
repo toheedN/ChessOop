@@ -7,7 +7,7 @@ public class sound {
 	//"move_piece.wav"
 	//"kill_piece.wav"
 	//"checkmate.wav"
-	public static synchronized void playSound(String name) {
+	public static synchronized void playSound(final String name) {
 		  new Thread(new Runnable() {
 		    public void run() {
 		      try {

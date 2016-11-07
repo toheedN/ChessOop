@@ -22,8 +22,8 @@ import java.util.ListIterator;
  */
 public class Main extends JFrame implements MouseListener {
     private static final long serialVersionUID = 1L;
-    private static final int Height = 700;
-    private static final int Width = 1300;
+    private static final int Height = 900;
+    private static final int Width = 1400;
     //Variable Declaration
     private static Pieces pieces;
     private static Display display;
@@ -112,13 +112,15 @@ public class Main extends JFrame implements MouseListener {
         SettingBoard();
 	}
 	
-    private static void SettingBoard() {
+   public  static void SettingBoard() {
         setMainboard(new Main());
         getMainboard().setVisible(true);
         getMainboard().setResizable(false);
-    }
-    
-	public static Main get_new_main()
+        ChessOptions.invoke();
+	}
+
+
+    public static Main get_new_main()
 	{
 		return new Main();
 	}
@@ -637,15 +639,61 @@ public class Main extends JFrame implements MouseListener {
         // TODO Auto-generated method stub
     }
 
-    @Override
     public void mousePressed(MouseEvent arg0) {
         // TODO Auto-generated method stub
     }
 
-    @Override
     public void mouseReleased(MouseEvent arg0) {
         // TODO Auto-generated method stub
     }
 
 
+    private static class ChessOptions {
+
+        private static void invoke() {
+            JMenuBar menuBar = new JMenuBar();
+            getMainboard().setJMenuBar(menuBar);
+
+            JMenu ChessMainMenu = new JMenu("Chess Options");
+            menuBar.add(ChessMainMenu);
+
+            JMenuItem OpenGameMenu = new JMenuItem("Open Game");
+            ChessMainMenu.add(OpenGameMenu);
+
+            JMenuItem SaveGameMenu = new JMenuItem("Save Game");
+            ChessMainMenu.add(SaveGameMenu);
+
+            JMenuItem ReloadMenu = new JMenuItem("Reload Game");
+            ChessMainMenu.add(ReloadMenu);
+
+            JMenuItem ChangeLayoutMenu = new JMenuItem("Change Layout");
+            ChangeLayoutMenu.addActionListener(new java.awt.event.ActionListener() {
+                @SuppressWarnings("static-access")
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+                	getMainboard().dispose();
+                	getMainboard().removeAll();
+                    Main mainBoard=new Main(); 
+                    mainBoard.getPieces().updatePieces();
+                    mainBoard.setMainboard(mainBoard);
+                    
+                    mainBoard.setUpBoardAndPieces();
+
+
+                }
+            });
+            ChessMainMenu.add(ChangeLayoutMenu);
+
+            JMenuItem ExitMenu = new JMenuItem("Exit");
+
+            ExitMenu.addActionListener(new java.awt.event.ActionListener() {
+public void actionPerformed(java.awt.event.ActionEvent evt) {
+		getMainboard().removeAll();
+		getMainboard().dispose();
+	
+}
+});
+
+            ChessMainMenu.add(ExitMenu);
+        }
+    }
 }
