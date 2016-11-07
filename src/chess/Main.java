@@ -3,9 +3,11 @@ package chess;
 import pieces.King;
 import pieces.Pieces;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -94,7 +96,7 @@ public class Main extends JFrame implements MouseListener {
         getDisplay().playerDisplayInit();
 
         //The Left Layout When Game is inactive
-        getDisplay().setLeftLayout();
+        getDisplay().setLeftLayout("clash.jpg");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -111,7 +113,7 @@ public class Main extends JFrame implements MouseListener {
         //Setting up the Display.board
         SettingBoard();
 	}
-	
+
    public  static void SettingBoard() {
         setMainboard(new Main());
         getMainboard().setVisible(true);
@@ -665,18 +667,24 @@ public class Main extends JFrame implements MouseListener {
 
             JMenuItem ReloadMenu = new JMenuItem("Reload Game");
             ChessMainMenu.add(ReloadMenu);
+            ReloadMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBoards ();
+                changedLayout ();
 
+            }
+});
+            
+            
+            
+            
             JMenuItem ChangeLayoutMenu = new JMenuItem("Change Layout");
             ChangeLayoutMenu.addActionListener(new java.awt.event.ActionListener() {
                 @SuppressWarnings("static-access")
 				public void actionPerformed(java.awt.event.ActionEvent evt) {
-                	getMainboard().dispose();
-                	getMainboard().removeAll();
-                    Main mainBoard=new Main(); 
+                    Main mainBoard = resetBoards ();
                     mainBoard.getPieces().updatePieces();
-                    mainBoard.setMainboard(mainBoard);
-                    
-                    mainBoard.setUpBoardAndPieces();
+                    changedLayout ();
 
 
                 }
@@ -694,6 +702,27 @@ public void actionPerformed(java.awt.event.ActionEvent evt) {
 });
 
             ChessMainMenu.add(ExitMenu);
+        }
+
+        private static void changedLayout () {
+            getDisplay().setLeftLayout("a.jpg");
+            setMainboard(new Main ());
+            getMainboard().setVisible(true);
+            getMainboard().setResizable(true);
+            invoke();
+        }
+
+        private static Main resetBoards () {
+            Main mainBoard=getMainboard();
+            if (getPrevious() != null)
+                getPrevious().removePiece();
+            setEnd(true);
+            getMainboard().disable();
+            getMainboard().dispose();
+            setEnd(false);
+            setPieces(new Pieces ());
+            setDisplay(new Display ());
+            return mainBoard;
         }
     }
 }

@@ -352,14 +352,14 @@ public class Display {
             }
     }
 
-    public void setLeftLayout() {
+    public void setLeftLayout(String ImageName) {
         Display.setTemp(new JPanel() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void paintComponent(Graphics g) {
                 try {
-                    Display.setImage(ImageIO.read(this.getClass().getResource("clash.jpg")));
+                	getImage(ImageName);
                 } catch (IOException ex) {
                     System.out.println("not found");
                 }
@@ -512,7 +512,11 @@ public class Display {
 
     }
 
-    public static JScrollPane getSaveslot() {
+    public void getImage(String ImagePath) throws IOException {
+		Display.setImage(ImageIO.read(this.getClass().getResource(ImagePath)));
+	}
+
+	public static JScrollPane getSaveslot() {
 		return saveslot;
 	}
 

@@ -44,10 +44,10 @@ public class Pieces {
         for (int i = 0; i < 8; i++) {
             getWp()[i] = new Pawn("WP0" + (i + 1), "White_Pawn.png", 0);
             getBp()[i] = new Pawn("BP0" + (i + 1), "Black_Pawn.png", 1);
-        }
+            }
     }
-    
-    
+
+
     public void updatePieces(){
     	
     	
