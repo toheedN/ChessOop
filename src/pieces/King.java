@@ -1,8 +1,9 @@
 package pieces;
 
-import chess.Cell;
-
 import java.util.ArrayList;
+
+import chess.Cell;
+import chess.Constants;
 
 public class King extends Piece {
 
@@ -41,13 +42,42 @@ public class King extends Piece {
         getPossiblemoves().clear();
         int posx[] = {x, x, x + 1, x + 1, x + 1, x - 1, x - 1, x - 1};
         int posy[] = {y - 1, y + 1, y - 1, y, y + 1, y - 1, y, y + 1};
-        for (int i = 0; i < getMaxCord(); i++)
+        for (int i = 0; i < getMaxCord(); i++) {
             if ((posx[i] >= getMinCord() && posx[i] < getMaxCord() && posy[i] >= getMinCord() && posy[i] < getMaxCord()))
                 if ((state[posx[i]][posy[i]].getpiece() == null || state[posx[i]][posy[i]].getpiece().getcolor() != this.getcolor()))
                     getPossiblemoves().add(state[posx[i]][posy[i]]);
+        }
+        
+        if (isKingNotMoved(x, y) && isPathFree(state) && isRookNotMoved(state)) {
+        	if (isWhite()) {
+        		 getPossiblemoves().add(state[7][0]);
+        	} else {
+        		getPossiblemoves().add(state[0][0]);
+        	}
+        }
         return getPossiblemoves();
     }
+    
+    boolean isKingNotMoved (int x, int y) {
+    	return (isWhite() && x == 7 && y == 3)
+    			|| (!isWhite() && x == 0 && y == 3);
+    }
+    
+    boolean isPathFree (Cell state[][]) {
+    	if (isWhite()) {
+    		return state[7][1].getpiece() == null && state[7][2].getpiece() == null;
+    	} else {
+    		return state[0][1].getpiece() == null && state[0][2].getpiece() == null;
+    	}
+    }
 
+    boolean isRookNotMoved (Cell state[][]) {
+    	if (isWhite()) {
+    		return state[7][0].getpiece() instanceof Rook;
+    	} else { // black
+    		return state[0][0].getpiece() instanceof Rook;
+    	}
+    }
 
     //Function to check if king is under threat
     //It checks whether there is any piece of opposite color that can attack king for a given board state
@@ -108,7 +138,7 @@ public class King extends Piece {
     }
 
     private boolean isWhite() {
-        return getcolor() == 0;
+        return getcolor() == Constants.WHITE;
     }
 
     private boolean validatePieceTypeandColor(Cell[][] state, int color, int tx, int ty) {

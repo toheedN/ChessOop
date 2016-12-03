@@ -1,16 +1,29 @@
 package chess;
 
-import pieces.King;
-import pieces.Pieces;
 
-import javax.imageio.ImageIO;
+
+import pieces.King;
+import pieces.Piece;
+import pieces.Pieces;
+import pieces.Rook;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
+
+
 
 /**
  * @author Ashish Kedia and Adarsh Mohata
@@ -52,8 +65,15 @@ public class Main extends JFrame implements MouseListener {
     private static String[] WNames = {};
     private static String[] BNames = {};
     private static int timeRemaining = 60;
-
-
+   // private MoveHistory moveHist;
+	ArrayList<ArrayList<int[]>> saveHist = new ArrayList<ArrayList<int[]>>();
+	ArrayList<int[]> temp = new ArrayList<int[]>();
+	static int count=0;
+	static int [][] hist = new int [1000][];
+	static int srcx=0;
+	static int dstx=0;
+	static int srcy=0;
+	static int dsty=0;
     //Constructor
     private Main() {
         setSize(getWidth(), getHeight());
@@ -89,21 +109,19 @@ public class Main extends JFrame implements MouseListener {
 
         //Defining the Player Box in Control Panel
         getDisplay().playerBoxInit();
+        
 
-        //Defining all the Cells
         getDisplay().cellsInit(this);
 
         getDisplay().playerDisplayInit();
 
         //The Left Layout When Game is inactive
-        getDisplay().setLeftLayout("clash.jpg");
+        getDisplay().setLeftLayout();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public static void main(String[] args) {
-
-        //variable initialization
-        //	Pieces.variableInitialization();
+   // 	Main.setSavedGames(new SavedGame());
         setUpBoardAndPieces();
     }
 
@@ -111,11 +129,12 @@ public class Main extends JFrame implements MouseListener {
 		setPieces(new Pieces());
         setDisplay(new Display());
         //Setting up the Display.board
-        SettingBoard();
+        SettingBoard(get_new_main());
 	}
-
-   public  static void SettingBoard() {
-        setMainboard(new Main());
+	
+	
+   public  static void SettingBoard(Main main) {
+        setMainboard(main);
         getMainboard().setVisible(true);
         getMainboard().setResizable(false);
         ChessOptions.invoke();
@@ -210,7 +229,7 @@ public class Main extends JFrame implements MouseListener {
     public static void setTimer(Time timer) {
         Main.timer = timer;
     }
-
+    
     public static Main getMainboard() {
         return Mainboard;
     }
@@ -343,7 +362,7 @@ public class Main extends JFrame implements MouseListener {
 
     // A function to change the chance from White Player to Black Player or vice verse
     // It is made public because it is to be accessed in the Time Class
-    public void changechance() {
+    public static void changechance() {
         if (getBoardState()[getKing(getChance()).getx()][getKing(getChance()).gety()].ischeck()) {
             setChance(getChance() ^ 1);
             sound.playSound("checkmate.wav");
@@ -363,7 +382,7 @@ public class Main extends JFrame implements MouseListener {
         }
     }
 
-    private void changeTurn() {
+    private static void changeTurn() {
         if (getMove() == "White")
             setMove("Black");
         else
@@ -373,13 +392,13 @@ public class Main extends JFrame implements MouseListener {
     }
 
     //A function to retrieve the Black King or White King
-    private King getKing(int color) {
+    private static King getKing(int color) {
         boolean isWhite = color == 0;
         return getPieces().returnKing(isWhite);
     }
 
     //A function to clean the highlights of possible destination cells
-    private void cleandestinations(ArrayList<Cell> destlist)      //Function to clear the last Display.move's destinations
+    private static void cleandestinations(ArrayList<Cell> destlist)      //Function to clear the last Display.move's destinations
     {
         ListIterator<Cell> it = destlist.listIterator();
         while (it.hasNext())
@@ -387,13 +406,13 @@ public class Main extends JFrame implements MouseListener {
     }
 
     //A function that indicates the possible Display.moves by highlighting the Cells
-    private void highlightdestinations(ArrayList<Cell> destlist) {
+    private static void highlightdestinations(ArrayList<Cell> destlist) {
         ListIterator<Cell> it = destlist.listIterator();
         while (it.hasNext())
             it.next().setpossibledestination();
     }
 
-    private Cell[][] exceptionCheckKing(Cell newboardstate[][], boolean kingInDanger) {
+    private static Cell[][] exceptionCheckKing(Cell newboardstate[][], boolean kingInDanger) {
 
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++) {
@@ -408,17 +427,16 @@ public class Main extends JFrame implements MouseListener {
         return newboardstate;
     }
 
-    private Cell[][] checkForKingDanger(Cell newboardstate[][], Cell tempc, Cell fromcell) {
+    private static Cell[][] checkForKingDanger(Cell newboardstate[][], Cell tempc, Cell fromcell) {
         if (newboardstate[tempc.x][tempc.y].getpiece() != null)
             newboardstate[tempc.x][tempc.y].removePiece();
         newboardstate[tempc.x][tempc.y].setPiece(newboardstate[fromcell.x][fromcell.y].getpiece());
         return newboardstate;
     }
 
-
     //Function to check if the king will be in danger if the given Display.move is made
 
-    private boolean willkingbeindanger(Cell fromcell, Cell tocell) {
+    private static boolean willkingbeindanger(Cell fromcell, Cell tocell) {
         Cell newboardstate[][] = new Cell[8][8];
         newboardstate = exceptionCheckKing(newboardstate, true);
         newboardstate = checkForKingDanger(newboardstate, tocell, fromcell);
@@ -435,7 +453,7 @@ public class Main extends JFrame implements MouseListener {
     }
 
     //A function to eliminate the possible moves that will put the King in danger
-    private ArrayList<Cell> filterdestination(ArrayList<Cell> destlist, Cell fromcell) {
+    private static ArrayList<Cell> filterdestination(ArrayList<Cell> destlist, Cell fromcell) {
         ArrayList<Cell> newlist = new ArrayList<Cell>();
         Cell newboardstate[][] = new Cell[8][8];
         ListIterator<Cell> it = destlist.listIterator();
@@ -462,7 +480,7 @@ public class Main extends JFrame implements MouseListener {
     }
 
     //A Function to filter the possible moves when the king of the current player is under Check
-    private ArrayList<Cell> incheckfilter(ArrayList<Cell> destlist, Cell fromcell, int color) {
+    private static ArrayList<Cell> incheckfilter(ArrayList<Cell> destlist, Cell fromcell, int color) {
         ArrayList<Cell> newlist = new ArrayList<Cell>();
         Cell newboardstate[][] = new Cell[8][8];
         ListIterator<Cell> it = destlist.listIterator();
@@ -489,7 +507,7 @@ public class Main extends JFrame implements MouseListener {
     }
 
     //A function to check if the King is check-mate. The Game Ends if this function returns true.
-    public boolean checkmate(int color) {
+    public static boolean checkmate(int color) {
         ArrayList<Cell> dlist = new ArrayList<Cell>();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -507,7 +525,7 @@ public class Main extends JFrame implements MouseListener {
 
 
     @SuppressWarnings("deprecation")
-    private void gameend() {
+    private static void gameend() {
         cleandestinations(getDestinationlist());
         getDisplay().disabledTime();
         getTimer().stop();
@@ -532,11 +550,15 @@ public class Main extends JFrame implements MouseListener {
     }
 
 
-    public void initializeClick() {
+    public static void initializeClick() {
+    	
         getC().select();
         setPrevious(getC());
         getDestinationlist().clear();
         setDestinationlist(getC().getpiece().move(getBoardState(), getC().x, getC().y));
+		System.out.println("..222222.."+getC().x);
+        System.out.println("++222222++"+getC().y);
+
         if (getC().getpiece() instanceof King)
             setDestinationlist(filterdestination(getDestinationlist(), getC()));
         else {
@@ -549,7 +571,7 @@ public class Main extends JFrame implements MouseListener {
     }
 
 
-    public void setKingPieceCoordinates() {
+    public static void setKingPieceCoordinates() {
 
         ((King) getC().getpiece()).setx(getC().x);
         ((King) getC().getpiece()).sety(getC().y);
@@ -559,15 +581,80 @@ public class Main extends JFrame implements MouseListener {
 
     //These are the abstract function of the parent class. Only relevant method here is the On-Click Fuction
     //which is called when the user clicks on a particular cell
-    @Override
-    public void mouseClicked(MouseEvent arg0) {
-        // TODO Auto-generated method stub
-        setC((Cell) arg0.getSource());
+    public static void saveFile(String fileName) throws IOException {
+    	File fout = new File(fileName);
+    	FileOutputStream fos = new FileOutputStream(fout);
+     
+    	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
+     
+    	for (int i = 0; i < count; i++) {
+    		for(int j=0; j<4; j++)
+    			bw.write(String.valueOf(hist[i][j]));
+    		bw.newLine();
+    	}
+    	bw.newLine();
+    	bw.close();
+    	System.out.println("Game Saved");
+    }
+
+	public static void loadFileArray(String fileName) throws IOException {
+		
+			System.out.println("Here.....");
+        	FileInputStream fileInput = new FileInputStream(fileName);
+        	int r,i=0,LocalCount=0;
+        	while ((r = fileInput.read()) != -1) {
+        	   char c = (char) r;
+        	  int temp =  Character.getNumericValue(c);
+        	  if (temp != -1)
+        	  {
+        		  if (i==0){
+        			  int coordintss[]={0,0,0,0};
+        			  hist[LocalCount]=coordintss ;
+        		  }
+        		  hist[LocalCount][i] = temp;
+        		  if (i==1 || i==3)
+        		  {
+        			  setC((Cell) boardState[hist[LocalCount][i-1]][ hist[LocalCount][i]] );
+        			  mouseClickProceed();
+        			  try {
+        				    Thread.sleep(300);                 //1000 milliseconds is one second.
+        				} catch(InterruptedException ex) {
+        				    Thread.currentThread().interrupt();
+        				}
+        		  }
+        		  i++;
+
+        	  }else
+        		  {
+        			  fileInput.read();
+        			  LocalCount++;
+        			  i=0;
+        		  }  
+        	}
+       	fileInput.close();
+		}
+    
+	   public void mouseClicked(MouseEvent arg0) {
+	        setC((Cell) arg0.getSource());
+	        try {
+				mouseClickProceed();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	   
+    
+    public static  void mouseClickProceed() throws IOException {
+
+
         if (getPrevious() == null) {
             if (getC().getpiece() != null) {
                 if (getC().getpiece().getcolor() != getChance())
                     return;
                 initializeClick();
+                srcx=getC().x;
+                srcy=getC().y;
             }
         } else {
             if (getC().x == getPrevious().x && getC().y == getPrevious().y) {
@@ -583,10 +670,16 @@ public class Main extends JFrame implements MouseListener {
                     	sound.playSound("kill_piece.wav");
                     }
                     else
-                    {
                     	sound.playSound("move_piece.wav");
-                    }
+                    dstx=getC().x;
+                    dsty=getC().y;
+
+                    int coordintss[]={srcx,srcy,dstx,dsty};
+                    hist[count]=coordintss ;
+                    count++;
+                    
                     getC().setPiece(getPrevious().getpiece());
+            		srcx=0;dstx=0;srcy=0;dsty=0;
                     if (getPrevious().ischeck())
                         getPrevious().removecheck();
                     getPrevious().removePiece();
@@ -617,6 +710,26 @@ public class Main extends JFrame implements MouseListener {
                 }
                 cleandestinations(getDestinationlist());
                 getDestinationlist().clear();
+                
+            } else if (getPrevious().getpiece() instanceof King && getC().getpiece() instanceof Rook) {
+            	System.out.println("Do the castliing part");
+            	
+            	Piece rook = getC().getpiece();
+            	Piece king = getPrevious().getpiece();
+            	
+            	getC().removePiece();
+            	getPrevious().removePiece();
+            	
+            	getC().setPiece(king);
+            	getPrevious().setPiece(rook);
+            	
+            	getPrevious().deselect();
+            	
+            	cleandestinations(getDestinationlist());
+                getDestinationlist().clear();
+                
+                changechance();
+            	
             } else if (getPrevious().getpiece().getcolor() == getC().getpiece().getcolor()) {
                 getPrevious().deselect();
                 cleandestinations(getDestinationlist());
@@ -628,7 +741,8 @@ public class Main extends JFrame implements MouseListener {
         if (getC().getpiece() != null && getC().getpiece() instanceof King) {
             setKingPieceCoordinates();
         }
-    }
+        
+	}
 
     //Other Irrelevant abstract function. Only the Click Event is captured.
     @Override
@@ -666,27 +780,20 @@ public class Main extends JFrame implements MouseListener {
             ChessMainMenu.add(SaveGameMenu);
 
             JMenuItem ReloadMenu = new JMenuItem("Reload Game");
-            ChessMainMenu.add(ReloadMenu);
             ReloadMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetBoards ();
-                changedLayout ();
+                @SuppressWarnings("static-access")
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    resetReloadBoard ();
+                }
+            });
 
-            }
-});
-            
-            
-            
-            
+            ChessMainMenu.add(ReloadMenu);
+
             JMenuItem ChangeLayoutMenu = new JMenuItem("Change Layout");
             ChangeLayoutMenu.addActionListener(new java.awt.event.ActionListener() {
                 @SuppressWarnings("static-access")
 				public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    Main mainBoard = resetBoards ();
-                    mainBoard.getPieces().updatePieces();
-                    changedLayout ();
-
-
+                    resetReloadBoard ();
                 }
             });
             ChessMainMenu.add(ChangeLayoutMenu);
@@ -697,6 +804,7 @@ public class Main extends JFrame implements MouseListener {
 public void actionPerformed(java.awt.event.ActionEvent evt) {
 		getMainboard().removeAll();
 		getMainboard().dispose();
+        System.exit(0);
 	
 }
 });
@@ -704,25 +812,14 @@ public void actionPerformed(java.awt.event.ActionEvent evt) {
             ChessMainMenu.add(ExitMenu);
         }
 
-        private static void changedLayout () {
-            getDisplay().setLeftLayout("a.jpg");
-            setMainboard(new Main ());
-            getMainboard().setVisible(true);
-            getMainboard().setResizable(true);
-            invoke();
-        }
-
-        private static Main resetBoards () {
-            Main mainBoard=getMainboard();
-            if (getPrevious() != null)
-                getPrevious().removePiece();
-            setEnd(true);
-            getMainboard().disable();
+        private static void resetReloadBoard () {
             getMainboard().dispose();
-            setEnd(false);
-            setPieces(new Pieces ());
-            setDisplay(new Display ());
-            return mainBoard;
+            getMainboard().removeAll();
+            Main mainBoard = new Main();
+            mainBoard.getPieces().updatePieces();
+            mainBoard.setMainboard(mainBoard);
+
+            mainBoard.setUpBoardAndPieces();
         }
     }
 }

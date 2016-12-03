@@ -3,18 +3,17 @@ package chess;
 import javax.swing.JOptionPane;
 
 public class SavedGame {
-	boolean savedStates[]={false, false, false, false, false};
-	int maxSavedStates = 5;
-	public Main saved[] = {Main.get_new_main(), Main.get_new_main(), Main.get_new_main(), Main.get_new_main(), Main.get_new_main()};
+	static int maxSavedStates = 5;
+	public static Main saved[] = new Main[maxSavedStates];
 	
 	/**************************************************************************************************
-	 * A function to save the current state of the game 'objMain' to 'saved[]' array at location 'arg'
+	 * A function to save the current state of the game 'objMain' to 'saved[]' array at location 'index
 	 **************************************************************************************************/
-	public boolean save_game(int arg, Main objMain)
+	public static boolean save_game(int index, Main objMain)
 	{
-		if (savedStates[arg] == false)
+		if (saved[index] == null)
 		{
-			saved[arg] = objMain;
+			saved[index] = objMain;
 			return true;
 		}
 		else
@@ -24,24 +23,30 @@ public class SavedGame {
 		}
 	}
 	/**********************************************************************************
-	 * A function to retrieve a saved game state from location 'arg' of array 'saved[]' 
+	 * A function to retrieve a saved game state from location 'index' of array 'saved[]' 
 	 **********************************************************************************/
-	public Main get_saved_game(int arg)
+	public static Main get_saved_game(int index)
 	{
-		if(savedStates[arg])
+		if(saved[index] == null)
 		{
-			return saved[arg];
+			JOptionPane.showMessageDialog(null, "No saved game exists at this location. Choose a valid saved slot.");
 		}
-		JOptionPane.showMessageDialog(null, "No saved game exists at this location. Choose a valid saved slot.");
-		return null;
+		
+		return saved[index];
 	}
 	/************************************************************************************
-	 * A function to delete a saved game state from array 'saved[]' at location 'arg'
+	 * A function to delete a saved game state from array 'saved[]' at location 'index'
 	 ************************************************************************************/
-	public void delete_saved_slot(int arg)
+	public void delete_saved_slot(int index)
 	{
-		savedStates[arg] = false;
-		saved[arg] = null;
-		JOptionPane.showMessageDialog(null, "Saved game at slot "+arg+" is deleted.");
+		if(saved[index] == null)
+		{
+			JOptionPane.showMessageDialog(null, "No saved game exists at this location. Choose a valid saved slot.");
+		}
+		else
+		{
+			saved[index] = null;
+			JOptionPane.showMessageDialog(null, "Saved game at slot " + index + " is deleted.");
+		}
 	}
 }

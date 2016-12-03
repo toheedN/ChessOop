@@ -1,5 +1,6 @@
 package chess;
 
+import pieces.Coordinates;
 import pieces.Piece;
 
 import javax.imageio.ImageIO;
@@ -39,6 +40,7 @@ public class Display {
     private static Container content;
     private static JComboBox<String> wcombo;
     private static JComboBox<String> bcombo;
+    
     private static JScrollPane wscroll;
     private static JScrollPane bscroll;
     private static JSlider timeSlider;
@@ -51,8 +53,11 @@ public class Display {
     private static Button savegame;
     private static Button loadgame;
     private static Button deltgame;
+    private static JComboBox<String> saveCombo;
+    
     private static JScrollPane saveslot;
-
+    private static SavedGame savedGames;
+    
 
     public Display() {
 
@@ -336,6 +341,13 @@ public class Display {
 	public static void setDeltGameButton(Button deltgame) {
 		Display.deltgame = deltgame;
 	}
+   public static SavedGame getSavedGames() {
+        return savedGames;
+    }
+
+    public static void setSavedGames(SavedGame savedGames) {
+        savedGames = savedGames;
+    }
 
 	public void cellsInit(MouseListener main) {
         Cell cell;
@@ -351,19 +363,33 @@ public class Display {
                 Main.getBoardState()[i][j] = cell;
             }
     }
+	
+	public void cellsInit(MouseListener main, Coordinates[][] coordinates) {
+        Cell cell;
+        Piece P;
+        Main.setBoardState(new Cell[8][8]);
+        for (int i = 0; i < 8; i++)
+            for (int j = 0; j < 8; j++) {
 
-    public void setLeftLayout(String ImageName) {
+                P = Main.getPieces().getAppropriatePiece(i, j);
+                cell = new Cell(coordinates[i][j].x, coordinates[i][j].y, P);
+                cell.addMouseListener(main);
+                Display.getBoard().add(cell);
+                Main.getBoardState()[i][j] = cell;
+            }
+    }
+
+    public void setLeftLayout() {
         Display.setTemp(new JPanel() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void paintComponent(Graphics g) {
                 try {
-                	getImage(ImageName);
+                    Display.setImage(ImageIO.read(this.getClass().getResource("clash.jpg")));
                 } catch (IOException ex) {
                     System.out.println("not found");
                 }
-
                 g.drawImage(Display.getImage(), 0, 0, null);
             }
         });
@@ -415,7 +441,7 @@ public class Display {
     	String[] saveSlots = {"1","2","3","4","5"};
         Display.setShowPlayer(new JPanel(new FlowLayout()));
         Display.getShowPlayer().add(Display.getTimeSlider());
-        JLabel setTime = new JLabel("Set Timer(in mins):");
+        JLabel setTime = new JLabel("Set Timer (in mins):");
         Display.setStart(new Button("Start"));
         Display.getStart().setBackground(Color.black);
         Display.getStart().setForeground(Color.white);
@@ -435,13 +461,18 @@ public class Display {
         Display.setSaveBox(new JPanel());
         //Display.getSaveBox().setLayout(new FlowLayout(4, 1, 1));
         Display.getSaveBox().setBorder(BorderFactory.createTitledBorder(null, "Save Game", TitledBorder.TOP, TitledBorder.CENTER, new Font("times new roman", Font.BOLD, 18), Color.MAGENTA));
-        Display.setSaveslot(new JScrollPane(new JComboBox<String> (saveSlots)));
+        Display.setSaveCombo(new JComboBox<String> (saveSlots));
+        Display.setSaveslot(new JScrollPane(Display.getSaveCombo()));
         Display.setSaveGameButton(new Button("Save Game"));
         Display.setLoadGameButton(new Button("Load Game"));
         Display.setDeltGameButton(new Button("Delete Game"));
         Display.getSaveGameButton().setPreferredSize(new Dimension(80, 25));
         Display.getLoadGameButton().setPreferredSize(new Dimension(80, 25));
         Display.getDeltGameButton().setPreferredSize(new Dimension(80, 25));
+        
+        Display.getSaveGameButton().addActionListener(new SaveActionListener());
+        Display.getLoadGameButton().addActionListener(new LoadActionListener());
+        Display.getDeltGameButton().addActionListener(new DeltActionListener());
         
         Display.getSaveBox().add(Display.getSaveslot());
         Display.getSaveBox().add(Display.getSaveGameButton());
@@ -512,16 +543,20 @@ public class Display {
 
     }
 
-    public void getImage(String ImagePath) throws IOException {
-		Display.setImage(ImageIO.read(this.getClass().getResource(ImagePath)));
-	}
-
-	public static JScrollPane getSaveslot() {
+    public static JScrollPane getSaveslot() {
 		return saveslot;
 	}
 
 	public static void setSaveslot(JScrollPane saveslot) {
 		Display.saveslot = saveslot;
+	}
+
+	private static JComboBox<String> getSaveCombo() {
+		return saveCombo;
+	}
+
+	private static void setSaveCombo(JComboBox<String> saveCombo) {
+		Display.saveCombo = saveCombo;
 	}
 
 	class TimeChange implements ChangeListener {
@@ -680,5 +715,50 @@ public class Display {
         }
     }
 
+    class SaveActionListener implements ActionListener
+    {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				JComboBox<String> sv = Display.getSaveCombo();
+				Main.saveFile("out" + sv.getSelectedItem() + ".txt");
+				JOptionPane.showMessageDialog(Display.getControlPanel(), "Game Saved");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(Display.getControlPanel(), "Game not saved");
+				e1.printStackTrace();
+			}
+		}
+    }
+    
+    class LoadActionListener implements ActionListener
+    {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Thread thread = new Thread("New Thread") {
+				
+			      public void run(){
+			    	  try {
+							JComboBox<String> sv = Display.getSaveCombo();
+							Main.loadFileArray("out" + sv.getSelectedItem() + ".txt");
+							JOptionPane.showMessageDialog(Display.getControlPanel(), "Game Loaded");
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(Display.getControlPanel(), "No Game to Load");
+							e1.printStackTrace();
+						}
+			      }
+			   };
 
+			   thread.start();
+		}
+    }
+    
+    class DeltActionListener implements ActionListener
+    {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(Display.getControlPanel(), "No game till now");
+		}
+    }
 }

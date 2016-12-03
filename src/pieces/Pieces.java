@@ -22,7 +22,6 @@ public class Pieces {
     private King bk;
 
     public Pieces() {
-
         setWr01(new Rook("WR01", "White_Rook.png", 0));
         setWr02(new Rook("WR02", "White_Rook.png", 0));
         setBr01(new Rook("BR01", "Black_Rook.png", 1));
@@ -44,15 +43,11 @@ public class Pieces {
         for (int i = 0; i < 8; i++) {
             getWp()[i] = new Pawn("WP0" + (i + 1), "White_Pawn.png", 0);
             getBp()[i] = new Pawn("BP0" + (i + 1), "Black_Pawn.png", 1);
-            }
+        }
     }
-
-
+    
+    
     public void updatePieces(){
-    	
-    	
-    	
-    	
         setWr01(new Rook("WR01", "Whiterook.png", 0));
         setWr02(new Rook("WR02", "Whiterook.png", 0));
         setBr01(new Rook("BR01", "Blackrook.png", 1));
