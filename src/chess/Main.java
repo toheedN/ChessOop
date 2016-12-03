@@ -66,8 +66,8 @@ public class Main extends JFrame implements MouseListener {
     private static String[] BNames = {};
     private static int timeRemaining = 60;
    // private MoveHistory moveHist;
-	ArrayList<ArrayList<int[]>> saveHist = new ArrayList<ArrayList<int[]>>();
-	ArrayList<int[]> temp = new ArrayList<int[]>();
+    ArrayList<ArrayList<int[]>> saveHist = new ArrayList<ArrayList<int[]>>();
+    ArrayList<int[]> temp = new ArrayList<int[]>();
 	static int count=0;
 	static int [][] hist = new int [1000][];
 	static int srcx=0;
@@ -76,6 +76,7 @@ public class Main extends JFrame implements MouseListener {
 	static int dsty=0;
     //Constructor
     private Main() {
+
         setSize(getWidth(), getHeight());
         setTitle("Chess");
         setTimeRemaining(60);
@@ -137,6 +138,7 @@ public class Main extends JFrame implements MouseListener {
         setMainboard(main);
         getMainboard().setVisible(true);
         getMainboard().setResizable(false);
+       getMainboard ().setDefaultCloseOperation (EXIT_ON_CLOSE);
         ChessOptions.invoke();
 	}
 
@@ -150,7 +152,7 @@ public class Main extends JFrame implements MouseListener {
         return serialVersionUID;
     }
 
-    public static Pieces getPieces() {
+        public static Pieces getPieces() {
         return pieces;
     }
 
@@ -527,6 +529,7 @@ public class Main extends JFrame implements MouseListener {
     @SuppressWarnings("deprecation")
     private static void gameend() {
         cleandestinations(getDestinationlist());
+        cleandestinations(getDestinationlist());
         getDisplay().disabledTime();
         getTimer().stop();
         if (getPrevious() != null)
@@ -784,6 +787,8 @@ public class Main extends JFrame implements MouseListener {
                 @SuppressWarnings("static-access")
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     resetReloadBoard ();
+                    //Setting up the Display.board
+                    SettingBoard(get_new_main());
                 }
             });
 
@@ -794,6 +799,10 @@ public class Main extends JFrame implements MouseListener {
                 @SuppressWarnings("static-access")
 				public void actionPerformed(java.awt.event.ActionEvent evt) {
                     resetReloadBoard ();
+                    getPieces ().updatePieces ();
+                    //Setting up the Display.board
+                    SettingBoard(get_new_main());
+
                 }
             });
             ChessMainMenu.add(ChangeLayoutMenu);
@@ -813,13 +822,19 @@ public void actionPerformed(java.awt.event.ActionEvent evt) {
         }
 
         private static void resetReloadBoard () {
-            getMainboard().dispose();
-            getMainboard().removeAll();
-            Main mainBoard = new Main();
-            mainBoard.getPieces().updatePieces();
-            mainBoard.setMainboard(mainBoard);
 
-            mainBoard.setUpBoardAndPieces();
+                cleandestinations(getDestinationlist());
+                getDisplay().disabledTime();
+                getTimer().stop();
+                if (getPrevious() != null)
+                    getPrevious().removePiece();
+                getDisplay().endDisplayForAll(getWinner());
+                getMainboard().disable();
+                getMainboard().dispose();
+                setPieces(new Pieces());
+                setDisplay(new Display());
+
+
         }
     }
 }

@@ -424,6 +424,26 @@ public class Display {
 
     }
 
+    public void endDisplayForAll(String winner) {
+        getWhitePlayer().remove(getWdetails());
+        getBlackPlayer().remove(getBdetails());
+        getDisplayTime().remove(getLabel());
+
+        getDisplayTime().add(getStart());
+        getShowPlayer().remove(getMov());
+        getShowPlayer().remove(getCHNC());
+        getShowPlayer().revalidate();
+        getShowPlayer().add(getTimeSlider());
+
+        getSplit().remove(getBoard());
+        getSplit().add(getTemp());
+        getWNewPlayer().enable();
+        getBNewPlayer().enable();
+        getWselect().enable();
+        getBselect().enable();
+
+    }
+
     public void disabledTime() {
         getDisplayTime().disable();
     }

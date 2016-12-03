@@ -1,15 +1,15 @@
 package chess;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 public class SavedGame {
 	static int maxSavedStates = 5;
-	public static Main saved[] = new Main[maxSavedStates];
+	public static JFrame saved[] = new JFrame[maxSavedStates];
 	
 	/**************************************************************************************************
 	 * A function to save the current state of the game 'objMain' to 'saved[]' array at location 'index
 	 **************************************************************************************************/
-	public static boolean save_game(int index, Main objMain)
+	public static boolean save_game(int index, JFrame objMain)
 	{
 		if (saved[index] == null)
 		{
@@ -25,7 +25,7 @@ public class SavedGame {
 	/**********************************************************************************
 	 * A function to retrieve a saved game state from location 'index' of array 'saved[]' 
 	 **********************************************************************************/
-	public static Main get_saved_game(int index)
+	public static JFrame get_saved_game(int index)
 	{
 		if(saved[index] == null)
 		{
