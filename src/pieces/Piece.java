@@ -30,6 +30,8 @@ public abstract class Piece implements Cloneable {
     }
 
     public abstract ArrayList<Cell> move(Cell pos[][], int x, int y);  //Abstract Function. Must be overridden
+    
+    public abstract void setAttributes(String i, String p, int c); 
 
     //Path getter
     public String getPath() {

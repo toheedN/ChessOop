@@ -14,7 +14,7 @@ public class Pawn extends Piece {
         setAttributes(i, p, c);
     }
 
-    private void setAttributes(String i, String p, int c) {
+    public void setAttributes(String i, String p, int c) {
         setId(i);
         setPath(p);
         setColor(c);

@@ -17,7 +17,7 @@ public class Bishop extends Piece {
         setAttributes(id, path, color);
     }
 
-    private void setAttributes(String i, String p, int c) {
+    public void setAttributes(String i, String p, int c) {
         setId(i);
         setPath(p);
         setColor(c);
