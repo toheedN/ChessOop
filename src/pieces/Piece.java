@@ -21,6 +21,13 @@ public abstract class Piece implements Cloneable {
     private String path;
     private ArrayList<Cell> possiblemoves = new ArrayList<Cell>();  //Protected (access from child classes)
 
+    
+    protected void setAttributes(String i, String p, int c) {
+        setId(i);
+        setPath(p);
+        setColor(c);
+    }
+    
     public static int getMinCord() {
         return MIN_CORD;
     }
@@ -30,8 +37,6 @@ public abstract class Piece implements Cloneable {
     }
 
     public abstract ArrayList<Cell> move(Cell pos[][], int x, int y);  //Abstract Function. Must be overridden
-    
-    public abstract void setAttributes(String i, String p, int c); 
 
     //Path getter
     public String getPath() {

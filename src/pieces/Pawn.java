@@ -14,11 +14,11 @@ public class Pawn extends Piece {
         setAttributes(i, p, c);
     }
 
-    public void setAttributes(String i, String p, int c) {
-        setId(i);
-        setPath(p);
-        setColor(c);
-    }
+//    private void setAttributes(String i, String p, int c) {
+//        setId(i);
+//        setPath(p);
+//        setColor(c);
+//    }
 
     //Move Function Overridden
     public ArrayList<Cell> move(Cell state[][], int x, int y) {

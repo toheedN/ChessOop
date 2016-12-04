@@ -356,7 +356,7 @@ public class Display {
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++) {
 
-                P = Main.getPieces().getAppropriatePiece(i, j);
+                P = Main.getPieces().create(i, j);
                 cell = new Cell(i, j, P);
                 cell.addMouseListener(main);
                 Display.getBoard().add(cell);
@@ -371,7 +371,7 @@ public class Display {
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++) {
 
-                P = Main.getPieces().getAppropriatePiece(i, j);
+                P = Main.getPieces().create(i, j);
                 cell = new Cell(coordinates[i][j].x, coordinates[i][j].y, P);
                 cell.addMouseListener(main);
                 Display.getBoard().add(cell);
@@ -424,26 +424,6 @@ public class Display {
 
     }
 
-    public void endDisplayForAll(String winner) {
-        getWhitePlayer().remove(getWdetails());
-        getBlackPlayer().remove(getBdetails());
-        getDisplayTime().remove(getLabel());
-
-        getDisplayTime().add(getStart());
-        getShowPlayer().remove(getMov());
-        getShowPlayer().remove(getCHNC());
-        getShowPlayer().revalidate();
-        getShowPlayer().add(getTimeSlider());
-
-        getSplit().remove(getBoard());
-        getSplit().add(getTemp());
-        getWNewPlayer().enable();
-        getBNewPlayer().enable();
-        getWselect().enable();
-        getBselect().enable();
-
-    }
-
     public void disabledTime() {
         getDisplayTime().disable();
     }
@@ -465,7 +445,7 @@ public class Display {
         Display.setStart(new Button("Start"));
         Display.getStart().setBackground(Color.black);
         Display.getStart().setForeground(Color.white);
-        Display.getStart().addActionListener(new START());
+        Display.getStart().addActionListener(new ActionCommandAdapter(new START()));
         Display.getStart().setPreferredSize(new Dimension(120, 40));
         setTime.setFont(new Font("Arial", Font.BOLD, 16));
         Display.setLabel(new JLabel("Time Starts now", JLabel.CENTER));
@@ -490,9 +470,9 @@ public class Display {
         Display.getLoadGameButton().setPreferredSize(new Dimension(80, 25));
         Display.getDeltGameButton().setPreferredSize(new Dimension(80, 25));
         
-        Display.getSaveGameButton().addActionListener(new SaveActionListener());
-        Display.getLoadGameButton().addActionListener(new LoadActionListener());
-        Display.getDeltGameButton().addActionListener(new DeltActionListener());
+        Display.getSaveGameButton().addActionListener(new ActionCommandAdapter(new SaveActionListener()));
+        Display.getLoadGameButton().addActionListener(new ActionCommandAdapter(new LoadActionCommand()));
+        Display.getDeltGameButton().addActionListener(new ActionCommandAdapter(new DeltActionCommand()));
         
         Display.getSaveBox().add(Display.getSaveslot());
         Display.getSaveBox().add(Display.getSaveGameButton());
@@ -697,11 +677,11 @@ public class Display {
         }
     }
 
-    class START implements ActionListener {
+    class START implements Command{
 
         @SuppressWarnings("deprecation")
         @Override
-        public void actionPerformed(ActionEvent arg0) {
+        public void execute() {
             // TODO Auto-generated method stub
 
             if (Main.getWhite().getName() == "null" || Main.getBlack().getName() == "null") {
@@ -735,10 +715,10 @@ public class Display {
         }
     }
 
-    class SaveActionListener implements ActionListener
+    class SaveActionListener implements Command
     {
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void execute() {
 			try {
 				JComboBox<String> sv = Display.getSaveCombo();
 				Main.saveFile("out" + sv.getSelectedItem() + ".txt");
@@ -751,10 +731,10 @@ public class Display {
 		}
     }
     
-    class LoadActionListener implements ActionListener
+    class LoadActionCommand implements Command
     {
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void execute() {
 			Thread thread = new Thread("New Thread") {
 				
 			      public void run(){
@@ -774,10 +754,10 @@ public class Display {
 		}
     }
     
-    class DeltActionListener implements ActionListener
+    class DeltActionCommand implements Command
     {
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void execute() {
 			JOptionPane.showMessageDialog(Display.getControlPanel(), "No game till now");
 		}
     }

@@ -14,14 +14,12 @@ public class King extends Piece {
     public King(String i, String p, int c, int x, int y) {
         setx(x);
         sety(y);
-        setAttributes(i,p,c);
+//        setId(i);
+//        setPath(p);
+//        setColor(c);
+        setAttributes(i, p, c);
     }
-    
-    public void setAttributes(String i, String p, int c) {
-        setId(i);
-        setPath(p);
-        setColor(c);
-    }
+
     //general value access functions
     public void setx(int x) {
         this.setX(x);

@@ -1,14 +1,30 @@
 package chess;
 
 
+import java.util.Observer;
+
 import javax.sound.sampled.*;
 
-public class sound {
-	//"move_piece.wav"
-	//"kill_piece.wav"
-	//"checkmate.wav"
-	public static synchronized void playSound(final String name) {
-		  new Thread(new Runnable() {
+public class Sound implements Observer {
+	
+	private static Sound instance;
+	
+	public static Sound getInstance () {
+		if (instance == null) {
+			instance = new Sound();
+		}
+		return instance;
+	}
+	
+	/**
+	 * made con private so no one can call it from outside of this class
+	 */
+	private Sound () {
+		
+	}
+	
+	private synchronized void playSound(final String name) {
+		new Thread(new Runnable() {
 		    public void run() {
 		      try {
 		        Clip clip = AudioSystem.getClip();
@@ -20,5 +36,21 @@ public class sound {
 		      }
 		    }
 		  }).start();
+	}
+
+	@Override
+	public void update(java.util.Observable o, Object arg) {
+		System.out.println("SoundUpdate called");
+		if (arg instanceof Event) {
+			System.out.println("SoundUpdate called");
+			Event event = (Event) arg;
+			if (event == Event.PIECE_KILLED) {
+				playSound("kill_piece.wav");
+			} else if (event == Event.PIECE_MOVED) {
+				playSound("move_piece.wav");
+			} else if (event == Event.CHECK_MATE) {
+				playSound("checkmate.wav");
+			}
 		}
+	}
 }

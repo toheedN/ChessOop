@@ -17,11 +17,11 @@ public class Bishop extends Piece {
         setAttributes(id, path, color);
     }
 
-    public void setAttributes(String i, String p, int c) {
-        setId(i);
-        setPath(p);
-        setColor(c);
-    }
+//    private void setAttributes(String i, String p, int c) {
+//        setId(i);
+//        setPath(p);
+//        setColor(c);
+//    }
 
     //move function defined. It returns a list of all the possible destinations of a Bishop
     //The basic principle of Bishop Movement on chess board has been implemented

@@ -11,10 +11,10 @@ public class Rook extends Piece {
 
     //Constructor
     public Rook(String i, String p, int c) {
-        setAttributes(i, p, c);
+        setRookfields(i, p, c);
     }
 
-    public void setAttributes(String i, String p, int c) {
+    private void setRookfields(String i, String p, int c) {
         setId(i);
         setPath(p);
         setColor(c);
