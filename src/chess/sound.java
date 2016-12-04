@@ -5,7 +5,7 @@ import java.util.Observer;
 
 import javax.sound.sampled.*;
 
-public class Sound implements Observer {
+class Sound implements Observer {
 	
 	private static Sound instance;
 	
