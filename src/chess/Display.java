@@ -386,7 +386,7 @@ public class Display {
             @Override
             public void paintComponent(Graphics g) {
                 try {
-                    Display.setImage(ImageIO.read(this.getClass().getResource("clash.jpg")));
+                    Display.setImage(ImageIO.read(this.getClass().getResource("a.jpg")));
                 } catch (IOException ex) {
                     System.out.println("not found");
                 }

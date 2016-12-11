@@ -51,7 +51,7 @@ public class Cell extends JPanel implements Cloneable {
         if (evenSumofCoordinates(x, y))
             setBackground(new Color(RVAL, GVAL, BVAL));
         else
-            setBackground(Color.white);
+            setBackground(Color.cyan);
     }
 
     private boolean evenSumofCoordinates(int x, int y) {
