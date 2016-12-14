@@ -49,10 +49,6 @@ public class Player implements Serializable {
             return players;
         } catch (IOException e) {
             e.printStackTrace();
-            try {
-                input.close();
-            } catch (IOException e1) {
-            }
             JOptionPane.showMessageDialog(null, "Unable to read the required Game files !!");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

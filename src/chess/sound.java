@@ -10,9 +10,8 @@ class Sound implements Observer {
 	private static Sound instance;
 	
 	public static Sound getInstance () {
-		if (instance == null) {
+
 			instance = new Sound();
-		}
 		return instance;
 	}
 	
