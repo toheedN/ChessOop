@@ -25,7 +25,7 @@ The project has been well documented in 3 docs - Software Requirement Specificat
 
 Since this was one of our first project during our undergraduate, there are a lot of bugs. The coding style and standards might not be up to the mark. Please bear with us.
 
-Project Contributors
+Source of Project from:
 --------------------
 
 1. Ashish Kedia (ashish1294@gmail.com)
